@@ -1,0 +1,6 @@
+<Settings>
+	<!--The routing algorithm should be one of
+	the algorithm from Routing package-->
+	<RoutingAlgo>ddfsd</RoutingAlgo>
+	
+</Settings>
