@@ -1,8 +1,10 @@
 import java.io.File;
+
 import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import Simulator.Simulator;
 import Utility.Configurations;
 
 
@@ -14,7 +16,7 @@ public class TrafficSimulation {
 	{
 		String configFileNameString = ParseArgs(args);
 		Configurations configs = ParseConfigFile(configFileNameString);
-		
+		Simulator simulator = new Simulator(configs);
 	}
 	
 	private static Configurations ParseConfigFile(String FileName) throws Exception
@@ -33,7 +35,8 @@ public class TrafficSimulation {
 		Document document = (Document) documentBuilder.parse(xmlFile);
 		retval.setRoutingAlgo(((org.w3c.dom.Document) document).
 				getElementsByTagName("RoutingAlgo").item(0).getTextContent());
-		
+		retval.setRoutingAlgo(((org.w3c.dom.Document) document).
+				getElementsByTagName("MapFile").item(0).getTextContent());
 		return retval;
 		
 	}

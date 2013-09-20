@@ -1,10 +1,21 @@
 package Simulator;
 import Utility.Configurations;
+import Topology.Topology;
 
 public class Simulator {
-
-	public Simulator(Configurations config)
+	
+	Topology topology;
+	Configurations configurations;
+	public Simulator(Configurations configs)
 	{
+		configurations = configs;
+	}
+	
+	private void ParseMap(){
+		
+	}
+	
+	private void AddVehicle() {
 		
 	}
 }

@@ -2,10 +2,20 @@ package Utility;
 
 public class Configurations {
 
-	private String routingAlgo;
+	private String RoutingAlgo;
+	private String MapFile;
+	
+	
+	public String getMapFile() {
+		return MapFile;
+	}
+
+	public void setMapFile(String mapFile) {
+		MapFile = mapFile;
+	}
 
 	public String getRoutingAlgo() {
-		return routingAlgo;
+		return RoutingAlgo;
 	}
 
 	public void setRoutingAlgo(String routingAlgo) throws Exception {
@@ -13,6 +23,6 @@ public class Configurations {
 		{
 			throw new Exception("Routing Algo is empty");
 		}
-		this.routingAlgo = routingAlgo;
+		this.RoutingAlgo = routingAlgo;
 	}
 }
