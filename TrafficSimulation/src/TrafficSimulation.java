@@ -33,9 +33,9 @@ public class TrafficSimulation {
 		        .newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = (Document) documentBuilder.parse(xmlFile);
-		retval.setRoutingAlgo(((org.w3c.dom.Document) document).
+		retval.setRoutingAlgorithm(((org.w3c.dom.Document) document).
 				getElementsByTagName("RoutingAlgo").item(0).getTextContent());
-		retval.setRoutingAlgo(((org.w3c.dom.Document) document).
+		retval.setRoutingAlgorithm(((org.w3c.dom.Document) document).
 				getElementsByTagName("MapFile").item(0).getTextContent());
 		return retval;
 		
