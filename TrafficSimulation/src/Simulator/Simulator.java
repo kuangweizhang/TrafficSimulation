@@ -12,9 +12,12 @@ public class Simulator {
 	}
 	
 	private void CreatTopology(){
+		Topology topology = new Topology(configurations.getMapFile());
 	}
 	
 	private void AddVehicle() {
 		
 	}
+	
+	
 }
