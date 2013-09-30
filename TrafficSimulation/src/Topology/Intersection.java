@@ -44,6 +44,11 @@ public class Intersection {
 	 */
 	private HashMap<Long, Neighbor> Neighbors = new HashMap<Long, Neighbor>();
 	
+	public long GetNumberOfNeighbors()
+	{
+		return Neighbors.keySet().size();
+	}
+	
 	/**
 	 * The constructor of Intersection.
 	 * @param lat

@@ -11,8 +11,7 @@ public class Simulator {
 		configurations = configs;
 	}
 	
-	private void ParseMap(){
-		
+	private void CreatTopology(){
 	}
 	
 	private void AddVehicle() {
