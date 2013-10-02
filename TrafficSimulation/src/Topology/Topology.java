@@ -17,6 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class Topology {
 	
+
 	/**
 	 * This number should be replaced when add checking road category in future.
 	 */
@@ -39,6 +40,10 @@ public class Topology {
 	static String MapPath;
 	
 	static Intersection preNode = null;
+	
+	public static Hashtable<Long, Intersection> getIntersections() {
+		return hashtableNodes;
+	}
 	
 	/**
 	 * Test entry for class Topology.

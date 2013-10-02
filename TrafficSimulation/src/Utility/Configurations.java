@@ -4,7 +4,12 @@ public class Configurations {
 
 	private RoutingAlgorithm RoutingAlgorithm;
 	private RoutingOption RoutingOption;
+	private boolean RoutingWithCurrentTraffic;
 	private String MapFile;
+	
+	public boolean isRoutingWithCurrentTraffic() {
+		return RoutingWithCurrentTraffic;
+	}
 	
 	public RoutingOption getRoutingOption() {
 		return RoutingOption;

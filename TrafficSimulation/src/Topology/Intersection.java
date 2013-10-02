@@ -49,6 +49,17 @@ public class Intersection {
 		return Neighbors.keySet().size();
 	}
 	
+	public Neighbor GetNeighborById(long id) throws Exception
+	{
+		if (Neighbors.containsKey(id))
+		{
+			return Neighbors.get(id);
+		}
+		else {
+			throw new Exception("Neighbor does not exist");
+		}
+	}
+	
 	/**
 	 * The constructor of Intersection.
 	 * @param lat

@@ -1,12 +1,17 @@
 package Routing;
 
 import Topology.Topology;
+import Utility.IGetDelay;
+import Utility.RoutingResult;
 
-public abstract class AStarRouting extends RoutingAlgorithmBase{
+public class AStarRouting extends RoutingAlgorithmBase{
 
 	@Override
-	public void getNextCity(Topology topology, long destinationCity,
-			long currentCity, double maxSpeed) {
+	public RoutingResult getRoutingResult(Topology topology,
+			long destinationCity, long currentCity, double maxSpeed,
+			IGetDelay delayFunction) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
