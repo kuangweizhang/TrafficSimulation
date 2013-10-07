@@ -16,4 +16,22 @@ public class CoordinateCalculator {
 
 		return d;
 	}
+	
+	public static double CalculateDistanceBetween(Intersection intersection1, 
+			Intersection intersection2)
+	{
+		return CoordinateToDistance(
+				intersection1.getLongitude(), intersection1.getLatitude(), 
+				intersection2.getLongitude(), intersection2.getLatitude());
+	}
+	
+	public static double CalculateDistanceBetween(Neighbor neighbor, Intersection intersection)
+	{
+		return CalculateDistanceBetween(neighbor.getNeighborValue(), intersection);
+	}
+	
+	public static double CalculateDistanceBetween(Intersection intersection, Neighbor neighbor)
+	{
+		return CalculateDistanceBetween(intersection, neighbor.getNeighborValue());
+	}
 }

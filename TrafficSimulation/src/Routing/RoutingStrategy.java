@@ -39,7 +39,7 @@ public class RoutingStrategy {
 		RoutingOption = configurations.getRoutingOption();
 	}
 	
-	public RoutingResult GetNextCity(Topology topology, long destinationCity, long currentCity, double maxSpeed)
+	public RoutingResult GetNextCity(Topology topology, long destinationCity, long currentCity, double maxSpeed) throws Exception
 	{
 		switch (RoutingOption) {
 		case Iterative:
@@ -52,13 +52,13 @@ public class RoutingStrategy {
 	}
 	
 	private RoutingResult GetNextCityIterative(Topology topology, 
-			long destinationCity, long currentCity, double maxSpeed)
+			long destinationCity, long currentCity, double maxSpeed) throws Exception
 	{
 		return RoutingAlgorithm.getRoutingResult(topology, destinationCity, currentCity, maxSpeed, DelayFunction);
 	}
 	
 	private RoutingResult GetNextCityRunOnce(Topology topology, 
-			long destinationCity, long currentCity, double maxSpeed)
+			long destinationCity, long currentCity, double maxSpeed) throws Exception
 	{
 		if (CachedRoutingResult == null)
 		{
@@ -75,10 +75,11 @@ public class RoutingStrategy {
 	 * Todo: estimate delay.
 	 * @param routingResult
 	 * @return
+	 * @throws Exception 
 	 */
-	private RoutingResult ForwardOneStep(RoutingResult routingResult)
+	private RoutingResult ForwardOneStep(RoutingResult routingResult) throws Exception
 	{
 		routingResult.getPath().pollFirst();
-		return new RoutingResult(routingResult.getPath().getFirst(), new Time(0),routingResult.getPath());
+		return new RoutingResult(routingResult.getPath().getFirst(), new TimeInterval(),routingResult.getPath());
 	}
 }

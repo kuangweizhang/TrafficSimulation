@@ -5,10 +5,16 @@ import java.util.LinkedList;
 
 public class RoutingResult {
 	private long NextCity;
-	private Time ExpectingDelay;
+	private TimeInterval ExpectingDelay;
 	private LinkedList<Long> Path;
 	
-	public RoutingResult(long nextcity, Time expectingDelay, LinkedList<Long> path)
+	/**
+	 * 
+	 * @param nextcity
+	 * @param expectingDelay Null means delay not calculated.
+	 * @param path - Null means path not calculated.
+	 */
+	public RoutingResult(long nextcity, TimeInterval expectingDelay, LinkedList<Long> path)
 	{
 		NextCity = nextcity;
 		ExpectingDelay = expectingDelay;
@@ -19,11 +25,23 @@ public class RoutingResult {
 		return NextCity;
 	}
 
-	public Time getExpectingDelay() {
-		return ExpectingDelay;
+	public TimeInterval getExpectingDelay() throws Exception {
+		if (ExpectingDelay != null)
+		{
+			return ExpectingDelay;
+		}
+		else {
+			throw new Exception("Expecting delay not exist");
+		}
 	}
 
-	public LinkedList<Long> getPath() {
-		return Path;
+	public LinkedList<Long> getPath() throws Exception {
+		if (Path != null)
+		{
+			return Path;
+		}
+		else {
+			throw new Exception("Path does not exist");
+		}
 	}
 }

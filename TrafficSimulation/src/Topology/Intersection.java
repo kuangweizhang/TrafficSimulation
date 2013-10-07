@@ -1,5 +1,7 @@
 package Topology;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Intersection {
 	
@@ -47,6 +49,16 @@ public class Intersection {
 	public long GetNumberOfNeighbors()
 	{
 		return Neighbors.keySet().size();
+	}
+	
+	public Set<Long> GetNeighborIds()
+	{
+		return Neighbors.keySet();
+	}
+	
+	public Collection<Neighbor> GetNeighbors()
+	{
+		return Neighbors.values();
 	}
 	
 	public Neighbor GetNeighborById(long id) throws Exception

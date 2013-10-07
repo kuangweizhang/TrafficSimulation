@@ -1,16 +1,34 @@
 package Routing;
 
+import java.sql.Time;
+import java.util.LinkedList;
+
+import Topology.Intersection;
 import Topology.Topology;
 import Utility.IGetDelay;
 import Utility.RoutingResult;
+import Utility.TimeInterval;
 
 public class GreedyRouting extends RoutingAlgorithmBase{
 
 	@Override
 	public RoutingResult getRoutingResult(Topology topology,
 			long destinationCity, long currentCity, double maxSpeed,
-			IGetDelay delayFunction) {
-		// TODO Auto-generated method stub
+			IGetDelay delayFunction) throws Exception {
+		LinkedList<Long> path = new LinkedList<Long>();
+		TimeInterval expectingDelay = new TimeInterval();
+		LazyGreedyRouting lazyGreedyRouting = new LazyGreedyRouting();
+		
+		while(currentCity != destinationCity)
+		{
+			long nextCity = lazyGreedyRouting.getRoutingResult(
+					topology, destinationCity, currentCity).getNextCity();
+			path.addLast(currentCity);
+			expectingDelay.addInterval(delayFunction.GetDelay(topology, currentCity, nextCity, maxSpeed));
+			currentCity = nextCity;
+		}
+		
+		RoutingResult routingResult = new RoutingResult(path.getFirst(), expectingDelay, path);
 		return null;
 	}
 

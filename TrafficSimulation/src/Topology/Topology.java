@@ -1,8 +1,10 @@
 package Topology;
 import java.util.Hashtable;
 import java.util.LinkedList;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -43,6 +45,17 @@ public class Topology {
 	
 	public static Hashtable<Long, Intersection> getIntersections() {
 		return hashtableNodes;
+	}
+	
+	public static Intersection getIntersection(long id) throws Exception {
+		if (hashtableNodes.containsKey(id))
+		{
+			return hashtableNodes.get(id);
+		}
+		else
+		{
+			throw new Exception("Can not find intersectoin:" + id);
+		}
 	}
 	
 	/**
