@@ -4,16 +4,21 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.LinkedList;
 
+import javax.naming.TimeLimitExceededException;
+
+import Utility.TimeInterval;
+
 public class Vehicle {
 	
+	private long Id;
 	private VehiclePosition Position;
 	private long StartCity;
 	private long DestinationCity;
 	private double MaxSpeed;
-	private Calendar StartTime;
-	private Calendar ArrivalTime;
-	private LinkedList<Time> ExpectingTimes;
-	private LinkedList<Calendar> CurrentTimes;
+	private TimeInterval StartTime;
+	private TimeInterval ArrivalTime;
+	private LinkedList<TimeInterval> ExpectingTimes;
+	private LinkedList<TimeInterval> CurrentTimes;
 	private boolean Arrived = false;
 	
 	public VehiclePosition getPosition() {
@@ -32,11 +37,11 @@ public class Vehicle {
 		return MaxSpeed;
 	}
 
-	public Calendar getStartTime() {
+	public TimeInterval getStartTime() {
 		return StartTime;
 	}
 
-	public Calendar getArrivalTime() {
+	public TimeInterval getArrivalTime() {
 		return ArrivalTime;
 	}
 
@@ -51,8 +56,9 @@ public class Vehicle {
 	 * @param currentTime
 	 * @param maxSpeed
 	 */
-	public Vehicle(long startCity, long destinationCity, Calendar currentTime, double maxSpeed)
+	public Vehicle(Long id, long startCity, long destinationCity, TimeInterval currentTime, double maxSpeed)
 	{
+		this.Id = id;
 		StartCity = startCity;
 		DestinationCity = destinationCity;
 		StartTime = currentTime;
@@ -60,22 +66,22 @@ public class Vehicle {
 	}
 	
 	public void UpdatePosition(VehiclePosition newPosition, 
-			Calendar currentTime, Time expectingTime)
+			TimeInterval currentTime, TimeInterval expectingTime)
 	{
 		if (ExpectingTimes == null)
 		{
-			ExpectingTimes = new LinkedList<Time>();
+			ExpectingTimes = new LinkedList<TimeInterval>();
 		}
 		ExpectingTimes.add(expectingTime);
 		if (currentTime == null)
 		{
-			CurrentTimes = new LinkedList<Calendar>();
+			CurrentTimes = new LinkedList<TimeInterval>();
 		}
 		CurrentTimes.add(currentTime);
 		UpdatePosition(newPosition, currentTime);
 	}
 	
-	public void UpdatePosition(VehiclePosition newPosition, Calendar currentTime)
+	public void UpdatePosition(VehiclePosition newPosition, TimeInterval currentTime)
 	{
 		Position = newPosition;
 		if (DestinationCity == Position.getFromIntersection())
@@ -84,4 +90,9 @@ public class Vehicle {
 			Arrived = true;
 		}
 	}
+
+	public long getId() {
+		return Id;
+	}
+	
 }

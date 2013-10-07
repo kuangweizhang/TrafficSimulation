@@ -6,6 +6,7 @@ public class Configurations {
 	private RoutingOption RoutingOption;
 	private boolean RoutingWithCurrentTraffic;
 	private String MapFile;
+	private long RandomSeed;
 	
 	public boolean isRoutingWithCurrentTraffic() {
 		return RoutingWithCurrentTraffic;
@@ -67,4 +68,13 @@ public class Configurations {
 		}
 		throw new Exception("Routing Option not supported:" + routingOption);
 	}
+
+	public long getRandomSeed() {
+		return RandomSeed;
+	}
+
+	public void setRandomSeed(long randomSeed) {
+		RandomSeed = randomSeed;
+	}
+	
 }
