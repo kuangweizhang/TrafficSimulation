@@ -6,8 +6,12 @@ import java.util.Set;
 
 import Utility.Configurations;
 import Utility.GetDelayWithTraffic;
+import Utility.RoutingAlgorithm;
+import Utility.RoutingResult;
 import Utility.TimeInterval;
 import Vehicle.Vehicle;
+import Routing.GreedyRouting;
+import Routing.RoutingAlgorithmBase;
 import Topology.Topology;
 
 public class Simulator {
@@ -42,15 +46,15 @@ public class Simulator {
 			{
 				currentVehicle.getPosition().setFromIntersection(toCityId);
 				currentVehicle.getPosition().setKM(0);
-				currentVehicle.getRoutingAlgorithm().
+				RoutingResult routingResult = currentVehicle.getRoutingAlgorithm().
 				getRoutingResult(this.Topology, currentVehicle.getDestinationCity(), 
 						toCityId, MaxSpeed, new GetDelayWithTraffic());
+				currentVehicle.getPosition().setToIntersection(routingResult.getNextCity());
 			}
-			
 		}
 	}
 	
-	private void AddVehicle() {
+	public void AddVehicle() throws Exception {
 		long startCity = GetRandomCity();
 		long endCity = GetRandomCity();
 		while (!Connective(startCity, endCity))
@@ -58,7 +62,16 @@ public class Simulator {
 			startCity = GetRandomCity();
 			endCity = GetRandomCity();
 		}
-		Vehicle newVehicle = new Vehicle(VehicleIdCounter++, startCity, endCity, SimulatorClock, MaxSpeed);
+		RoutingAlgorithmBase routingAlgorithm = null;
+		switch (Configurations.getRoutingAlgo()) {
+		case Greedy:
+			routingAlgorithm = new GreedyRouting();
+			break;
+		default:
+			throw new Exception("Other algorithm not suppoted");
+		}
+		Vehicle newVehicle = new Vehicle(VehicleIdCounter++, startCity, endCity, 
+				SimulatorClock, MaxSpeed, routingAlgorithm);
 		Vehicles.put(newVehicle.getId(), newVehicle);
 	}
 	

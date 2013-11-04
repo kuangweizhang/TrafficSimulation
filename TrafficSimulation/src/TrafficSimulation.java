@@ -17,6 +17,14 @@ public class TrafficSimulation {
 		String configFileNameString = ParseArgs(args);
 		Configurations configs = ParseConfigFile(configFileNameString);
 		Simulator simulator = new Simulator(configs);
+		for(int i = 0; i <= 1000; i++)
+		{
+			simulator.AddVehicle();
+		}
+		for(int i = 0; i <= 1000; i++)
+		{
+			simulator.Run();
+		}
 	}
 	
 	private static Configurations ParseConfigFile(String FileName) throws Exception
