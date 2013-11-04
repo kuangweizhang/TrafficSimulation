@@ -250,6 +250,11 @@ public class Topology {
 		}
 	}
 	
+	public double DistanceBetween(long city1, long city2) throws Exception
+	{
+		return getIntersection(city1).GetNeighborById(city2).getDistance();
+	}
+	
 	public int NumberOfIntersections()
 	{
 		return this.hashtableNodes.size();

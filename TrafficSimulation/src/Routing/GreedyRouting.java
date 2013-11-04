@@ -9,6 +9,11 @@ import Utility.IGetDelay;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
 
+/**
+ * Use direct distance as heuristic.
+ * @author Kevin
+ *
+ */
 public class GreedyRouting extends RoutingAlgorithmBase{
 
 	@Override
@@ -28,8 +33,7 @@ public class GreedyRouting extends RoutingAlgorithmBase{
 			currentCity = nextCity;
 		}
 		
-		RoutingResult routingResult = new RoutingResult(path.getFirst(), expectingDelay, path);
-		return null;
+		return new RoutingResult(path.getFirst(), expectingDelay, path);
 	}
 
 }

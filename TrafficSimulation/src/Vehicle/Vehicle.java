@@ -1,11 +1,10 @@
 package Vehicle;
 
-import java.sql.Time;
-import java.util.Calendar;
 import java.util.LinkedList;
 
-import javax.naming.TimeLimitExceededException;
-
+import Routing.RoutingAlgorithmBase;
+import Topology.Topology;
+import Utility.RoutingResult;
 import Utility.TimeInterval;
 
 public class Vehicle {
@@ -20,6 +19,8 @@ public class Vehicle {
 	private LinkedList<TimeInterval> ExpectingTimes;
 	private LinkedList<TimeInterval> CurrentTimes;
 	private boolean Arrived = false;
+	private RoutingAlgorithmBase RoutingAlgorithm;
+	private RoutingResult RoutingResult;
 	
 	public VehiclePosition getPosition() {
 		return Position;
@@ -56,13 +57,20 @@ public class Vehicle {
 	 * @param currentTime
 	 * @param maxSpeed
 	 */
-	public Vehicle(Long id, long startCity, long destinationCity, TimeInterval currentTime, double maxSpeed)
+	public Vehicle(Long id, long startCity, long destinationCity, TimeInterval currentTime, 
+			double maxSpeed, RoutingAlgorithmBase routingAlgorithm)
 	{
 		this.Id = id;
 		StartCity = startCity;
 		DestinationCity = destinationCity;
 		StartTime = currentTime;
 		MaxSpeed = maxSpeed;
+		this.RoutingAlgorithm = routingAlgorithm;
+	}
+	
+	public RoutingAlgorithmBase getRoutingAlgorithm()
+	{
+		return this.RoutingAlgorithm;
 	}
 	
 	public void UpdatePosition(VehiclePosition newPosition, 

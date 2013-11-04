@@ -82,5 +82,10 @@ public class TimeInterval {
 		Seconds = seconds;
 	}
 	
+	public double distanceTraveled(double hourSpeed)
+	{
+		double hour = this.Hours + this.Minutes/60.0 + this.Seconds/3600.0;
+		return hour * hourSpeed;
+	}
 	
 }
