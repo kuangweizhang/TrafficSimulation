@@ -1,15 +1,14 @@
 package Simulator;
-import java.lang.invoke.ConstantCallSite;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Set;
 
 import Utility.Configurations;
 import Utility.GetDelayWithTraffic;
-import Utility.RoutingAlgorithm;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
 import Vehicle.Vehicle;
+import Vehicle.VehiclePosition;
+import Vehicle.VehicleStage;
 import Routing.GreedyRouting;
 import Routing.RoutingAlgorithmBase;
 import Topology.Topology;
@@ -22,6 +21,7 @@ public class Simulator {
 	private final TimeInterval ForwardInterval = new TimeInterval(0, 5, 0);
 	private static long VehicleIdCounter = 0;
 	private HashMap<Long, Vehicle> Vehicles = new HashMap<Long, Vehicle>();
+	private HashMap<Long, Vehicle> ArrivedVehicles = new HashMap<Long, Vehicle>();
 	private final double MaxSpeed = 60;
 	private Random RandomCity;
 	
@@ -39,19 +39,51 @@ public class Simulator {
 		for(long vehicleId : Vehicles.keySet())
 		{
 			Vehicle currentVehicle = Vehicles.get(vehicleId);
-			long fromCityId = currentVehicle.getPosition().getFromIntersection();
-			long toCityId = currentVehicle.getPosition().getFromIntersection();
-			double km = currentVehicle.getPosition().getKM() + ForwardInterval.distanceTraveled(MaxSpeed);
-			if (km >= Topology.DistanceBetween(fromCityId, toCityId))
+			if (currentVehicle.getStage() == VehicleStage.OnRoad) {
+				long fromCityId = currentVehicle.getPosition()
+						.getFromIntersection();
+				long toCityId = currentVehicle.getPosition()
+						.getFromIntersection();
+				double km = currentVehicle.getPosition().getKM()
+						+ ForwardInterval.distanceTraveled(MaxSpeed);
+				if (km >= Topology.DistanceBetween(fromCityId, toCityId)) {
+					RoutingResult routingResult = currentVehicle
+							.getRoutingAlgorithm().getRoutingResult(
+									this.Topology,
+									currentVehicle.getDestinationCity(),
+									toCityId, MaxSpeed,
+									new GetDelayWithTraffic());
+					currentVehicle.UpdatePosition(new VehiclePosition(toCityId,
+							routingResult.getNextCity(), 0),
+							this.SimulatorClock);
+					if (currentVehicle.isArrived()) {
+						this.ArrivedVehicles.put(currentVehicle.getId(),
+								currentVehicle);
+						this.Vehicles.remove(currentVehicle.getId());
+					}
+				} else {
+					currentVehicle.UpdatePosition(new VehiclePosition(
+							fromCityId, toCityId, km), this.SimulatorClock);
+				}
+			}
+			else
 			{
-				currentVehicle.getPosition().setFromIntersection(toCityId);
-				currentVehicle.getPosition().setKM(0);
-				RoutingResult routingResult = currentVehicle.getRoutingAlgorithm().
-				getRoutingResult(this.Topology, currentVehicle.getDestinationCity(), 
-						toCityId, MaxSpeed, new GetDelayWithTraffic());
-				currentVehicle.getPosition().setToIntersection(routingResult.getNextCity());
+				long toCityId = currentVehicle.getPosition()
+						.getFromIntersection();
+				RoutingResult routingResult = currentVehicle
+						.getRoutingAlgorithm().getRoutingResult(
+								this.Topology,
+								currentVehicle.getDestinationCity(),
+								toCityId, MaxSpeed,
+								new GetDelayWithTraffic());
+				
 			}
 		}
+	}
+	
+	public Iterable<Vehicle> GetMetrics()
+	{
+		return ArrivedVehicles.values();
 	}
 	
 	public void AddVehicle() throws Exception {

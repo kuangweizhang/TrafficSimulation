@@ -39,7 +39,9 @@ public class VehiclePosition {
 		KM = kM;
 	}
 
-	public VehiclePosition() {
-		// TODO Auto-generated constructor stub
+	public VehiclePosition(long from, long to, double km) {
+		this.FromIntersection = from;
+		this.ToIntersection = to;
+		this.KM = km;
 	}
 }

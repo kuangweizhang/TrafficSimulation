@@ -1,10 +1,12 @@
 package Topology;
 
+import Utility.TimeInterval;
+
 public class Neighbor {
 	private Intersection NeighborValue;
 	private Double Distance;
 	private Integer NumberOfLane;
-	private Double CurrentDelay;
+	private TimeInterval CurrentDelay;
 
 	public Neighbor(Intersection me, Intersection myNeighbor, int numberOfLaneBetween)
 	{
@@ -14,11 +16,11 @@ public class Neighbor {
 				myNeighbor.getLongitude(), myNeighbor.getLatitude());
 	}
 	
-	public Double getCurrentDelay() {
+	public TimeInterval getCurrentDelay() {
 		return CurrentDelay;
 	}
 
-	public void setCurrentDelay(Double currentDelay) {
+	public void setCurrentDelay(TimeInterval currentDelay) {
 		CurrentDelay = currentDelay;
 	}
 	

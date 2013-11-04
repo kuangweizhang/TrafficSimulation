@@ -16,11 +16,32 @@ public class Vehicle {
 	private double MaxSpeed;
 	private TimeInterval StartTime;
 	private TimeInterval ArrivalTime;
-	private LinkedList<TimeInterval> ExpectingTimes;
-	private LinkedList<TimeInterval> CurrentTimes;
+	private VehicleStage Stage;
+
+
+	/**
+	 * List of expecting arrival time, each represent the expecting
+	 * arrival time at a node.
+	 */
+	//private LinkedList<TimeInterval> ExpectingArrivalTimes;
+	
+	private TimeInterval ExpectingArrivalTime;
 	private boolean Arrived = false;
 	private RoutingAlgorithmBase RoutingAlgorithm;
 	private RoutingResult RoutingResult;
+	
+	public VehicleStage getStage() {
+		return Stage;
+	}
+
+	public void setStage(VehicleStage stage) {
+		Stage = stage;
+	}
+	
+	public TimeInterval getExpectingDifference()
+	{
+		return ArrivalTime.subtractInterval(ExpectingArrivalTime);
+	}
 	
 	public VehiclePosition getPosition() {
 		return Position;
@@ -73,21 +94,16 @@ public class Vehicle {
 		return this.RoutingAlgorithm;
 	}
 	
-	public void UpdatePosition(VehiclePosition newPosition, 
-			TimeInterval currentTime, TimeInterval expectingTime)
-	{
-		if (ExpectingTimes == null)
-		{
-			ExpectingTimes = new LinkedList<TimeInterval>();
-		}
-		ExpectingTimes.add(expectingTime);
-		if (currentTime == null)
-		{
-			CurrentTimes = new LinkedList<TimeInterval>();
-		}
-		CurrentTimes.add(currentTime);
-		UpdatePosition(newPosition, currentTime);
-	}
+//	public void UpdatePosition(VehiclePosition newPosition, 
+//			TimeInterval currentTime, TimeInterval expectingTime)
+//	{
+//		if (ExpectingArrivalTimes == null)
+//		{
+//			ExpectingArrivalTimes = new LinkedList<TimeInterval>();
+//		}
+//		ExpectingArrivalTimes.add(expectingTime);
+//		UpdatePosition(newPosition, currentTime);
+//	}
 	
 	public void UpdatePosition(VehiclePosition newPosition, TimeInterval currentTime)
 	{

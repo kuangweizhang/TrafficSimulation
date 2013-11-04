@@ -49,6 +49,20 @@ public class TimeInterval {
 		this.Hours += timeInterval.Hours;
 		return this;
 	}
+	
+	public int getTotalSeconds(){
+		return this.Hours * 3600 + this.Minutes*60 + this.Seconds;
+	}
+	
+	public static TimeInterval FromeSeconds(int sec)
+	{
+		return new TimeInterval(sec/3600, (sec / 60)%60 , sec %3600);
+	}
+	
+	public TimeInterval subtractInterval(TimeInterval timeInterval)
+	{
+		return FromeSeconds(this.getTotalSeconds() - timeInterval.getTotalSeconds());
+	}
 
 	public int getHours() {
 		return Hours;

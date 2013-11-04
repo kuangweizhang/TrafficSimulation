@@ -2,12 +2,15 @@ package Topology;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
+import javax.crypto.Cipher;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import Utility.TimeInterval;
 
 /**
  * This class is used to replace the Topology class. After this class is
@@ -95,7 +98,7 @@ public class Topology {
 	 * Parse the XML file and form the relation between
 	 * intersections.
 	 */
-	public static void ParseMapXMLPopulateRoad()
+	private static void ParseMapXMLPopulateRoad()
 	{
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -159,7 +162,7 @@ public class Topology {
 	/**
 	 * Parse the xml file and get all the crossroads.
 	 */
-	public static void ParseMapXMLGetIntersections()
+	private static void ParseMapXMLGetIntersections()
 	{
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -258,5 +261,17 @@ public class Topology {
 	public int NumberOfIntersections()
 	{
 		return this.hashtableNodes.size();
+	}
+	
+	public void 
+	
+	public TimeInterval EstimateDelayBetween(long city1, long city2, TimeInterval time) throws Exception
+	{
+		return getIntersection(city1).GetNeighborById(city2).getCurrentDelay();
+	}
+	
+	public TimeInterval CurrentDelayBetween(long city1, long city2) throws Exception
+	{
+		return getIntersection(city1).GetNeighborById(city2).getCurrentDelay();
 	}
 }
