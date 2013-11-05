@@ -1,12 +1,12 @@
 package Vehicle;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import Routing.RoutingStrategy;
 import Simulator.Simulator;
 import Topology.Topology;
 import Utility.Configurations;
+import Utility.RoutingDelayOption;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
 
@@ -92,14 +92,14 @@ public class Vehicle {
 		this.MaxSpeed = maxSpeed;
 		this.Topology = topology;
 		this.RoutingStrategy = routingStrategy;
-		
+		this.Stage = VehicleStage.AtIntersection;
 		this.ExpectingArrivalTime = getExpectingArrivalTime();
 	}
 	
 	private TimeInterval getExpectingArrivalTime() throws Exception
 	{
 		Configurations configs= new Configurations();
-		configs.enableTraffic(false);
+		configs.setRoutingDelayOption(RoutingDelayOption.NoTraffic);
 		configs.setRoutingAlgorithm("Greedy");
 		configs.setRoutingOption("RunOnce");
 		RoutingStrategy estimatedStrategy = new RoutingStrategy(configs);

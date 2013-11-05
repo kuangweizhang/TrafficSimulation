@@ -26,14 +26,17 @@ public class RoutingStrategy {
 			throw new UnsupportedOperationException();
 		}
 		
-		if (configurations.isRoutingWithCurrentTraffic())
-		{
-			DelayFunction = new GetDelayWithTraffic();
-		}
-		else {
+		switch (configurations.getRoutingDelayOption()) {
+		case NoTraffic:
 			DelayFunction = new GetDelayWithoutTraffic();
+			break;
+		case CurrentTraffic:
+			DelayFunction = new GetDelayWithTraffic();
+		case Reservation:
+			DelayFunction = new GetDelayWithReservation();
+		default:
+			throw new UnsupportedOperationException();
 		}
-		RoutingOption = configurations.getRoutingOption();
 	}
 	
 	public RoutingResult GetNextCity(Topology topology, long destinationCity, long currentCity, double maxSpeed) throws Exception

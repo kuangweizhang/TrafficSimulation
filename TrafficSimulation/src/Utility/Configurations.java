@@ -4,19 +4,19 @@ public class Configurations {
 
 	private RoutingAlgorithm RoutingAlgorithm;
 	private RoutingOption RoutingOption;
-	private boolean RoutingWithCurrentTraffic;
+	private RoutingDelayOption routingDelayOption;
 	private String MapFile;
 	private long RandomSeed;
 	
-	public boolean isRoutingWithCurrentTraffic() {
-		return RoutingWithCurrentTraffic;
-	}
 	
-	public void enableTraffic(boolean enable)
-	{
-		this.RoutingWithCurrentTraffic = enable;
+	public RoutingDelayOption getRoutingDelayOption() {
+		return routingDelayOption;
 	}
-	
+
+	public void setRoutingDelayOption(RoutingDelayOption routingDelayOption) {
+		this.routingDelayOption = routingDelayOption;
+	}
+
 	public RoutingOption getRoutingOption() {
 		return RoutingOption;
 	}
@@ -31,6 +31,30 @@ public class Configurations {
 
 	public RoutingAlgorithm getRoutingAlgo() {
 		return RoutingAlgorithm;
+	}
+	
+	public void setRoutingDelayOption(String delayOption) throws Exception
+	{
+		if (delayOption.isEmpty())
+		{
+			throw new Exception("Delay Option is empty");
+		}
+		if (delayOption == "NoTraffic")
+		{
+			this.routingDelayOption = RoutingDelayOption.NoTraffic;
+			return;
+		}
+		if (delayOption == "CurrentTraffic")
+		{
+			this.routingDelayOption = RoutingDelayOption.CurrentTraffic;
+			return;
+		}
+		if (delayOption == "Reservation")
+		{
+			this.routingDelayOption = RoutingDelayOption.Reservation;
+			return;
+		}
+		throw new Exception("Routing Algorithm not supported:" + delayOption);
 	}
 
 	public void setRoutingAlgorithm(String routingAlgo) throws Exception {

@@ -43,8 +43,11 @@ public class TrafficSimulation {
 		Document document = (Document) documentBuilder.parse(xmlFile);
 		retval.setRoutingAlgorithm(((org.w3c.dom.Document) document).
 				getElementsByTagName("RoutingAlgo").item(0).getTextContent());
+		retval.setRoutingDelayOption(((org.w3c.dom.Document) document).
+				getElementsByTagName("DelayOption").item(0).getTextContent());
 		retval.setRoutingAlgorithm(((org.w3c.dom.Document) document).
 				getElementsByTagName("MapFile").item(0).getTextContent());
+		retval.setRandomSeed(System.currentTimeMillis());
 		return retval;
 		
 	}
