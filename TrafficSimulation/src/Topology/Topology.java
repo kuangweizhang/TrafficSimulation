@@ -126,8 +126,8 @@ public class Topology {
 							}
 							else
 							{
-								preNode.AddNeighbor(hashtableNodes.get(reference), NumberOfLanes);
-								hashtableNodes.get(reference).AddNeighbor(preNode, NumberOfLanes);
+								preNode.AddNeighbor(hashtableNodes.get(reference), NumberOfLanes, 30);
+								hashtableNodes.get(reference).AddNeighbor(preNode, NumberOfLanes, 30);
 								preNode = hashtableNodes.get(reference);
 							}
 						}
@@ -263,7 +263,32 @@ public class Topology {
 		return this.hashtableNodes.size();
 	}
 	
-	public void 
+	public void AddReservation(long city1, long city2, TimeInterval time) throws Exception
+	{
+		getIntersection(city1).GetNeighborById(city2).AddReservation(time);
+	}
+	
+	public void RemoveReservation(long city1, long city2, TimeInterval time) throws Exception
+	{
+		getIntersection(city1).GetNeighborById(city2).RemoveReservation(time);
+	}
+	
+	public void ReleaseUsingRoad(long city1, long city2) throws Exception
+	{
+		getIntersection(city1).GetNeighborById(city2).LeaveRoad();
+	}
+	
+	/**
+	 * 
+	 * @param city1
+	 * @param city2
+	 * @return - Delay in current traffic condition.
+	 * @throws Exception 
+	 */
+	public TimeInterval AcquireUsingRoad(long city1, long city2) throws Exception
+	{
+		return getIntersection(city1).GetNeighborById(city2).UseRoad();
+	}
 	
 	public TimeInterval EstimateDelayBetween(long city1, long city2, TimeInterval time) throws Exception
 	{

@@ -50,14 +50,36 @@ public class TimeInterval {
 		return this;
 	}
 	
+	public double devidedBy(TimeInterval timeInterval)
+	{
+		return this.getTotalSeconds()/(double)timeInterval.getTotalSeconds();
+	}
+	
+	public boolean earlierThan(TimeInterval timeInterval)
+	{
+		return this.getTotalSeconds() < timeInterval.getTotalSeconds();
+	}
+	
 	public int getTotalSeconds(){
 		return this.Hours * 3600 + this.Minutes*60 + this.Seconds;
+	}
+	
+	public static TimeInterval FromHour(double hours)
+	{
+		return TimeInterval.FromeSeconds((int)(hours*3600));
+	}
+	
+	public static TimeInterval FromMinute(int minute)
+	{
+		return new TimeInterval(minute/60, minute%60, 0);
 	}
 	
 	public static TimeInterval FromeSeconds(int sec)
 	{
 		return new TimeInterval(sec/3600, (sec / 60)%60 , sec %3600);
 	}
+	
+	public static TimeInterval MaxTimeInterval = new TimeInterval(1000, 0, 0);
 	
 	public TimeInterval subtractInterval(TimeInterval timeInterval)
 	{

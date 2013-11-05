@@ -17,8 +17,8 @@ public class Simulator {
 	
 	private Topology Topology;
 	private Configurations Configurations;
-	private TimeInterval SimulatorClock;
-	private final TimeInterval ForwardInterval = new TimeInterval(0, 5, 0);
+	public static TimeInterval WorldClock;
+	public final static TimeInterval UnviersalInterval = new TimeInterval(0, 5, 0);
 	private static long VehicleIdCounter = 0;
 	private HashMap<Long, Vehicle> Vehicles = new HashMap<Long, Vehicle>();
 	private HashMap<Long, Vehicle> ArrivedVehicles = new HashMap<Long, Vehicle>();
@@ -29,13 +29,13 @@ public class Simulator {
 	{
 		this.Configurations = configs;
 		this.Topology = new Topology(this.Configurations.getMapFile());
-		this.SimulatorClock = new TimeInterval();
+		Simulator.WorldClock = new TimeInterval();
 		this.RandomCity = new Random(this.Configurations.getRandomSeed());
 	}
 	
 	public void Run() throws Exception
 	{
-		this.SimulatorClock.addInterval(ForwardInterval);
+		Simulator.WorldClock.addInterval(UnviersalInterval);
 		for(long vehicleId : Vehicles.keySet())
 		{
 			Vehicle currentVehicle = Vehicles.get(vehicleId);
@@ -45,7 +45,7 @@ public class Simulator {
 				long toCityId = currentVehicle.getPosition()
 						.getFromIntersection();
 				double km = currentVehicle.getPosition().getKM()
-						+ ForwardInterval.distanceTraveled(MaxSpeed);
+						+ UnviersalInterval.distanceTraveled(MaxSpeed);
 				if (km >= Topology.DistanceBetween(fromCityId, toCityId)) {
 					RoutingResult routingResult = currentVehicle
 							.getRoutingAlgorithm().getRoutingResult(
@@ -55,7 +55,7 @@ public class Simulator {
 									new GetDelayWithTraffic());
 					currentVehicle.UpdatePosition(new VehiclePosition(toCityId,
 							routingResult.getNextCity(), 0),
-							this.SimulatorClock);
+							Simulator.WorldClock);
 					if (currentVehicle.isArrived()) {
 						this.ArrivedVehicles.put(currentVehicle.getId(),
 								currentVehicle);
@@ -63,7 +63,7 @@ public class Simulator {
 					}
 				} else {
 					currentVehicle.UpdatePosition(new VehiclePosition(
-							fromCityId, toCityId, km), this.SimulatorClock);
+							fromCityId, toCityId, km), Simulator.WorldClock);
 				}
 			}
 			else
@@ -103,7 +103,7 @@ public class Simulator {
 			throw new Exception("Other algorithm not suppoted");
 		}
 		Vehicle newVehicle = new Vehicle(VehicleIdCounter++, startCity, endCity, 
-				SimulatorClock, MaxSpeed, routingAlgorithm);
+				WorldClock, MaxSpeed, routingAlgorithm);
 		Vehicles.put(newVehicle.getId(), newVehicle);
 	}
 	
@@ -114,7 +114,7 @@ public class Simulator {
 	
 	private long GetRandomCity()
 	{
-		Object[] keys = this.Topology.getIntersections().keySet().toArray();
+		Object[] keys = Topology.getIntersections().keySet().toArray();
 		return (Long) keys[this.RandomCity.nextInt(keys.length)]; 
 	}
 }
