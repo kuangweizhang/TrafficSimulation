@@ -11,6 +11,10 @@ import Utility.Configurations;
 public class TrafficSimulation {
 
 	private static String DefaultConfig = "Config.xml";
+	/**
+	 * Print out report per how many time ticks.
+	 */
+	private static int ReportFrquence = 100;
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -21,9 +25,17 @@ public class TrafficSimulation {
 		{
 			simulator.AddVehicle();
 		}
+		
+		int tickCount = 0;
 		for(int i = 0; i <= 1000; i++)
 		{
 			simulator.Run();
+			if(tickCount == ReportFrquence)
+			{
+				tickCount = 0;
+				System.out.println(simulator.getTimeTickReport());
+			}
+			tickCount++;
 		}
 	}
 	

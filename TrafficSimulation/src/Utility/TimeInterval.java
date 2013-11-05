@@ -125,8 +125,19 @@ public class TimeInterval implements Cloneable{
 		return hour * hourSpeed;
 	}
 	
+	public TimeInterval devideBy(int k)
+	{
+		return TimeInterval.FromeSeconds(this.getTotalSeconds()/k);
+	}
+	
 	public TimeInterval clone()
 	{
 		return new TimeInterval(this.getHours(), this.getMinutes(), this.getSeconds());
+	}
+	
+	@Override
+	public String toString()
+	{
+		return this.Hours + ":" + this.Minutes + ":" + this.Seconds;
 	}
 }

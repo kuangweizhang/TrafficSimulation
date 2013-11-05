@@ -64,17 +64,17 @@ public class Configurations {
 		}
 		if (routingAlgo == "Greedy")
 		{
-			this.RoutingAlgorithm = RoutingAlgorithm.Greedy;
+			this.RoutingAlgorithm = Utility.RoutingAlgorithm.Greedy;
 			return;
 		}
 		if (routingAlgo == "AStar")
 		{
-			this.RoutingAlgorithm = RoutingAlgorithm.AStarSearch;
+			this.RoutingAlgorithm = Utility.RoutingAlgorithm.AStarSearch;
 			return;
 		}
 		if (routingAlgo == "Dijkstra")
 		{
-			this.RoutingAlgorithm = RoutingAlgorithm.Dijkstra;
+			this.RoutingAlgorithm = Utility.RoutingAlgorithm.Dijkstra;
 			return;
 		}
 		throw new Exception("Routing Algorithm not supported:" + routingAlgo);
@@ -87,12 +87,12 @@ public class Configurations {
 		}
 		if (routingOption == "RunOnce")
 		{
-			this.RoutingOption = RoutingOption.RunOnce;
+			this.RoutingOption = Utility.RoutingOption.RunOnce;
 			return;
 		}
 		if (routingOption == "Iterative")
 		{
-			this.RoutingOption = RoutingOption.Iterative;
+			this.RoutingOption = Utility.RoutingOption.Iterative;
 			return;
 		}
 		throw new Exception("Routing Option not supported:" + routingOption);

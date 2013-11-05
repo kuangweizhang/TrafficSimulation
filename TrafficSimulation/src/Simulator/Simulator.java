@@ -3,14 +3,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 import Utility.Configurations;
-import Utility.RoutingResult;
 import Utility.TimeInterval;
 import Vehicle.Vehicle;
 import Vehicle.VehiclePosition;
 import Vehicle.VehicleStage;
-import Routing.GetDelayWithTraffic;
-import Routing.GreedyRouting;
-import Routing.RoutingAlgorithmBase;
 import Routing.RoutingStrategy;
 import Topology.Topology;
 
@@ -78,6 +74,30 @@ public class Simulator {
 	public Iterable<Vehicle> GetMetrics()
 	{
 		return ArrivedVehicles.values();
+	}
+	
+	public String getTimeTickReport()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(WorldClock);
+		stringBuilder.append(" ");
+		stringBuilder.append("Total cars:" + (this.Vehicles.size() + this.ArrivedVehicles.size()) + " ");
+		stringBuilder.append("Driving Cars:" + (this.Vehicles.size()) + " ");
+		stringBuilder.append("Arrived Cars:" + (this.ArrivedVehicles.size()) + " ");
+		stringBuilder.append("Average Alpha" + getAverageAlpha());
+		
+		return stringBuilder.toString();
+	}
+	
+	public TimeInterval getAverageAlpha()
+	{
+		TimeInterval counterInterval = new TimeInterval();
+		int kCounter = 0;
+		for (Vehicle arraiedVehicle : ArrivedVehicles.values()) {
+			counterInterval.addInterval(arraiedVehicle.getExpectingDifference());
+			kCounter++;
+		}
+		return counterInterval.devideBy(kCounter);
 	}
 	
 	public void AddVehicle() throws Exception {
