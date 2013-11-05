@@ -3,12 +3,12 @@ import java.util.HashMap;
 import java.util.Random;
 
 import Utility.Configurations;
-import Utility.GetDelayWithTraffic;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
 import Vehicle.Vehicle;
 import Vehicle.VehiclePosition;
 import Vehicle.VehicleStage;
+import Routing.GetDelayWithTraffic;
 import Routing.GreedyRouting;
 import Routing.RoutingAlgorithmBase;
 import Topology.Topology;
@@ -68,15 +68,21 @@ public class Simulator {
 			}
 			else
 			{
-				long toCityId = currentVehicle.getPosition()
+				long fromCityId = currentVehicle.getPosition()
 						.getFromIntersection();
 				RoutingResult routingResult = currentVehicle
 						.getRoutingAlgorithm().getRoutingResult(
 								this.Topology,
 								currentVehicle.getDestinationCity(),
-								toCityId, MaxSpeed,
+								fromCityId, MaxSpeed,
 								new GetDelayWithTraffic());
-				
+				if(Topology.CurrentDelayBetween(fromCityId, routingResult.getNextCity()).
+						earlierThan(TimeInterval.MaxTimeInterval))
+				{
+					currentVehicle.setStage(VehicleStage.OnRoad);
+					currentVehicle.UpdatePosition(new VehiclePosition(fromCityId, 
+							routingResult.getNextCity(), 0), WorldClock);
+				}
 			}
 		}
 	}

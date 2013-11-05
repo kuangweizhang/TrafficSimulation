@@ -79,7 +79,7 @@ public class Vehicle {
 	 * @param maxSpeed
 	 */
 	public Vehicle(Long id, long startCity, long destinationCity, TimeInterval currentTime, 
-			double maxSpeed, RoutingAlgorithmBase routingAlgorithm)
+			double maxSpeed, RoutingAlgorithmBase routingAlgorithm, Topology topology)
 	{
 		this.Id = id;
 		StartCity = startCity;
@@ -87,6 +87,7 @@ public class Vehicle {
 		StartTime = currentTime;
 		MaxSpeed = maxSpeed;
 		this.RoutingAlgorithm = routingAlgorithm;
+		this.RoutingAlgorithm.getRoutingResult(topology, DestinationCity, StartCity, MaxSpeed, delayFunction)
 	}
 	
 	public RoutingAlgorithmBase getRoutingAlgorithm()

@@ -4,7 +4,6 @@ import Topology.CoordinateCalculator;
 import Topology.Intersection;
 import Topology.Neighbor;
 import Topology.Topology;
-import Utility.IGetDelay;
 import Utility.RoutingResult;
 
 public class LazyGreedyRouting extends RoutingAlgorithmBase{

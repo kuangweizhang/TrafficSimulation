@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import Topology.Intersection;
 import Topology.Topology;
-import Utility.IGetDelay;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
 

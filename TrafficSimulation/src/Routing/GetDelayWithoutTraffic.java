@@ -1,6 +1,7 @@
-package Utility;
+package Routing;
 
 import Topology.Topology;
+import Utility.TimeInterval;
 
 public class GetDelayWithoutTraffic implements IGetDelay {
 

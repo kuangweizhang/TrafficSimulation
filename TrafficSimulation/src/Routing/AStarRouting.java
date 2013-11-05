@@ -1,7 +1,6 @@
 package Routing;
 
 import Topology.Topology;
-import Utility.IGetDelay;
 import Utility.RoutingResult;
 
 public class AStarRouting extends RoutingAlgorithmBase{
