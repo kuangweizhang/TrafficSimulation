@@ -1,9 +1,12 @@
 package Vehicle;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
-import Routing.RoutingAlgorithmBase;
+import Routing.RoutingStrategy;
+import Simulator.Simulator;
 import Topology.Topology;
+import Utility.Configurations;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
 
@@ -17,7 +20,7 @@ public class Vehicle {
 	private TimeInterval StartTime;
 	private TimeInterval ArrivalTime;
 	private VehicleStage Stage;
-
+	private Topology Topology;
 
 	/**
 	 * List of expecting arrival time, each represent the expecting
@@ -27,8 +30,8 @@ public class Vehicle {
 	
 	private TimeInterval ExpectingArrivalTime;
 	private boolean Arrived = false;
-	private RoutingAlgorithmBase RoutingAlgorithm;
-	private RoutingResult RoutingResult;
+	private RoutingStrategy RoutingStrategy;
+	private LinkedList<Reservation> reservations;
 	
 	public VehicleStage getStage() {
 		return Stage;
@@ -77,23 +80,62 @@ public class Vehicle {
 	 * @param destinationCity
 	 * @param currentTime
 	 * @param maxSpeed
+	 * @throws Exception 
 	 */
 	public Vehicle(Long id, long startCity, long destinationCity, TimeInterval currentTime, 
-			double maxSpeed, RoutingAlgorithmBase routingAlgorithm, Topology topology)
+			double maxSpeed, RoutingStrategy routingStrategy, Topology topology) throws Exception
 	{
 		this.Id = id;
-		StartCity = startCity;
-		DestinationCity = destinationCity;
-		StartTime = currentTime;
-		MaxSpeed = maxSpeed;
-		this.RoutingAlgorithm = routingAlgorithm;
-		this.RoutingAlgorithm.getRoutingResult(topology, DestinationCity, StartCity, MaxSpeed, delayFunction)
+		this.StartCity = startCity;
+		this.DestinationCity = destinationCity;
+		this.StartTime = currentTime;
+		this.MaxSpeed = maxSpeed;
+		this.Topology = topology;
+		this.RoutingStrategy = routingStrategy;
+		
+		this.ExpectingArrivalTime = getExpectingArrivalTime();
 	}
 	
-	public RoutingAlgorithmBase getRoutingAlgorithm()
+	private TimeInterval getExpectingArrivalTime() throws Exception
 	{
-		return this.RoutingAlgorithm;
+		Configurations configs= new Configurations();
+		configs.enableTraffic(false);
+		configs.setRoutingAlgorithm("Greedy");
+		configs.setRoutingOption("RunOnce");
+		RoutingStrategy estimatedStrategy = new RoutingStrategy(configs);
+		return estimatedStrategy.GetNextCity(this.Topology, 
+				this.DestinationCity, this.StartCity, this.MaxSpeed).getExpectingDelay();
 	}
+	
+	public long getNextCity() throws Exception
+	{
+		return this.RoutingStrategy.GetNextCity(this.Topology, this.DestinationCity, 
+				this.Position.getFromIntersection(), this.MaxSpeed).getNextCity();
+	}
+	
+	public void UpdateReservations(RoutingResult routingResult) throws Exception
+	{
+		for (Reservation reservation : reservations) {
+			Topology.RemoveReservation(reservation);
+		}
+		TimeInterval timeCounter = Simulator.WorldClock.clone();
+		int stepCounter = 0;
+		long from = this.Position.getFromIntersection();
+		long to = routingResult.getPath().get(stepCounter);
+		while(to != routingResult.getPath().peekLast())
+		{
+			Topology.AddReservation(from, to, timeCounter);
+			timeCounter.addInterval(Topology.EstimateDelayBetween(from, to, timeCounter));
+			stepCounter++;
+			from = to;
+			to = routingResult.getPath().get(stepCounter);
+		}
+	}
+	
+//	public RoutingStrategy getRoutingStrategy()
+//	{
+//		return this.RoutingStrategy;
+//	}
 	
 //	public void UpdatePosition(VehiclePosition newPosition, 
 //			TimeInterval currentTime, TimeInterval expectingTime)

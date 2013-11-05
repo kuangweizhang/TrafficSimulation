@@ -6,12 +6,9 @@ import Utility.TimeInterval;
 public class GetDelayWithTraffic implements IGetDelay {
 
 	@Override
-	public TimeInterval GetDelay(Topology topology, long startCity,
-			long destinationCity, double maxSpeed) throws Exception {
-		throw new UnsupportedOperationException("Unimplemented");
-		
-//		return topology.getIntersections().get(startCity).
-//				GetNeighborById(destinationCity).getCurrentDelay();
+	public TimeInterval GetDelay(long startCity, long destinationCity,
+			TimeInterval time) throws Exception {
+		return Topology.getIntersection(startCity).
+				GetNeighborById(destinationCity).getCurrentDelay();
 	}
-
 }

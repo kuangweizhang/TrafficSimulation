@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import Utility.TimeInterval;
+import Vehicle.Reservation;
 
 /**
  * This class is used to replace the Topology class. After this class is
@@ -268,9 +269,10 @@ public class Topology {
 		getIntersection(city1).GetNeighborById(city2).AddReservation(time);
 	}
 	
-	public void RemoveReservation(long city1, long city2, TimeInterval time) throws Exception
+	public void RemoveReservation(Reservation reservation) throws Exception
 	{
-		getIntersection(city1).GetNeighborById(city2).RemoveReservation(time);
+		getIntersection(reservation.getFromIntersect()).
+		GetNeighborById(reservation.getToIntersect()).RemoveReservation(reservation.getTime());
 	}
 	
 	public void ReleaseUsingRoad(long city1, long city2) throws Exception

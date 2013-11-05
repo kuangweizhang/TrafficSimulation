@@ -1,6 +1,5 @@
 package Utility;
 
-import java.sql.Time;
 import java.util.LinkedList;
 
 public class RoutingResult {
@@ -35,6 +34,13 @@ public class RoutingResult {
 		}
 	}
 
+	/**
+	 * 
+	 * @return The path from current position to destination.
+	 * The first element is the immediate next city, the last
+	 * element is the destination.
+	 * @throws Exception
+	 */
 	public LinkedList<Long> getPath() throws Exception {
 		if (Path != null)
 		{

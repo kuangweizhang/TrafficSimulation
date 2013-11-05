@@ -12,6 +12,11 @@ public class Configurations {
 		return RoutingWithCurrentTraffic;
 	}
 	
+	public void enableTraffic(boolean enable)
+	{
+		this.RoutingWithCurrentTraffic = enable;
+	}
+	
 	public RoutingOption getRoutingOption() {
 		return RoutingOption;
 	}

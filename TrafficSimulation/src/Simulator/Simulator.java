@@ -11,6 +11,7 @@ import Vehicle.VehicleStage;
 import Routing.GetDelayWithTraffic;
 import Routing.GreedyRouting;
 import Routing.RoutingAlgorithmBase;
+import Routing.RoutingStrategy;
 import Topology.Topology;
 
 public class Simulator {
@@ -40,22 +41,13 @@ public class Simulator {
 		{
 			Vehicle currentVehicle = Vehicles.get(vehicleId);
 			if (currentVehicle.getStage() == VehicleStage.OnRoad) {
-				long fromCityId = currentVehicle.getPosition()
-						.getFromIntersection();
-				long toCityId = currentVehicle.getPosition()
-						.getFromIntersection();
+				long fromCityId = currentVehicle.getPosition().getFromIntersection();
+				long toCityId = currentVehicle.getPosition().getFromIntersection();
 				double km = currentVehicle.getPosition().getKM()
 						+ UnviersalInterval.distanceTraveled(MaxSpeed);
 				if (km >= Topology.DistanceBetween(fromCityId, toCityId)) {
-					RoutingResult routingResult = currentVehicle
-							.getRoutingAlgorithm().getRoutingResult(
-									this.Topology,
-									currentVehicle.getDestinationCity(),
-									toCityId, MaxSpeed,
-									new GetDelayWithTraffic());
-					currentVehicle.UpdatePosition(new VehiclePosition(toCityId,
-							routingResult.getNextCity(), 0),
-							Simulator.WorldClock);
+					currentVehicle.setStage(VehicleStage.AtIntersection);
+					this.Topology.ReleaseUsingRoad(fromCityId, toCityId);
 					if (currentVehicle.isArrived()) {
 						this.ArrivedVehicles.put(currentVehicle.getId(),
 								currentVehicle);
@@ -70,18 +62,14 @@ public class Simulator {
 			{
 				long fromCityId = currentVehicle.getPosition()
 						.getFromIntersection();
-				RoutingResult routingResult = currentVehicle
-						.getRoutingAlgorithm().getRoutingResult(
-								this.Topology,
-								currentVehicle.getDestinationCity(),
-								fromCityId, MaxSpeed,
-								new GetDelayWithTraffic());
-				if(Topology.CurrentDelayBetween(fromCityId, routingResult.getNextCity()).
+				long nextCity = currentVehicle.getNextCity();
+				if(Topology.CurrentDelayBetween(fromCityId, nextCity).
 						earlierThan(TimeInterval.MaxTimeInterval))
 				{
 					currentVehicle.setStage(VehicleStage.OnRoad);
 					currentVehicle.UpdatePosition(new VehiclePosition(fromCityId, 
-							routingResult.getNextCity(), 0), WorldClock);
+							nextCity, 0), WorldClock);
+					this.Topology.AcquireUsingRoad(fromCityId, nextCity);
 				}
 			}
 		}
@@ -100,16 +88,9 @@ public class Simulator {
 			startCity = GetRandomCity();
 			endCity = GetRandomCity();
 		}
-		RoutingAlgorithmBase routingAlgorithm = null;
-		switch (Configurations.getRoutingAlgo()) {
-		case Greedy:
-			routingAlgorithm = new GreedyRouting();
-			break;
-		default:
-			throw new Exception("Other algorithm not suppoted");
-		}
+		
 		Vehicle newVehicle = new Vehicle(VehicleIdCounter++, startCity, endCity, 
-				WorldClock, MaxSpeed, routingAlgorithm);
+				WorldClock, MaxSpeed, new RoutingStrategy(this.Configurations), this.Topology);
 		Vehicles.put(newVehicle.getId(), newVehicle);
 	}
 	

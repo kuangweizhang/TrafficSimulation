@@ -1,6 +1,7 @@
 package Utility;
 
-public class TimeInterval {
+
+public class TimeInterval implements Cloneable{
 
 	private int Hours;
 	private int Minutes;
@@ -124,4 +125,8 @@ public class TimeInterval {
 		return hour * hourSpeed;
 	}
 	
+	public TimeInterval clone()
+	{
+		return new TimeInterval(this.getHours(), this.getMinutes(), this.getSeconds());
+	}
 }

@@ -28,7 +28,7 @@ public class GreedyRouting extends RoutingAlgorithmBase{
 			long nextCity = lazyGreedyRouting.getRoutingResult(
 					topology, destinationCity, currentCity).getNextCity();
 			path.addLast(currentCity);
-			expectingDelay.addInterval(delayFunction.GetDelay(topology, currentCity, nextCity, maxSpeed));
+			expectingDelay.addInterval(delayFunction.GetDelay(currentCity, nextCity, null));
 			currentCity = nextCity;
 		}
 		

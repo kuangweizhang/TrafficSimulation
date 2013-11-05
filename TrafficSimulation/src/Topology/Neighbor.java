@@ -26,6 +26,12 @@ public class Neighbor {
 		SpeedLimit = speedLimit;
 	}
 	
+	public TimeInterval getStandardDelay() {
+		return StandardDelay;
+	}
+
+
+
 	/**
 	 * 
 	 * @return - Delay in current traffic condition.
