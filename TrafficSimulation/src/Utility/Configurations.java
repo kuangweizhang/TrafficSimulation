@@ -39,17 +39,17 @@ public class Configurations {
 		{
 			throw new Exception("Delay Option is empty");
 		}
-		if (delayOption == "NoTraffic")
+		if (delayOption.equals("NoTraffic"))
 		{
 			this.routingDelayOption = RoutingDelayOption.NoTraffic;
 			return;
 		}
-		if (delayOption == "CurrentTraffic")
+		if (delayOption.equals("CurrentTraffic"))
 		{
 			this.routingDelayOption = RoutingDelayOption.CurrentTraffic;
 			return;
 		}
-		if (delayOption == "Reservation")
+		if (delayOption.equals("Reservation"))
 		{
 			this.routingDelayOption = RoutingDelayOption.Reservation;
 			return;
@@ -62,17 +62,17 @@ public class Configurations {
 		{
 			throw new Exception("Routing Algo is empty");
 		}
-		if (routingAlgo == "Greedy")
+		if (routingAlgo.equals("Greedy"))
 		{
 			this.RoutingAlgorithm = Utility.RoutingAlgorithm.Greedy;
 			return;
 		}
-		if (routingAlgo == "AStar")
+		if (routingAlgo.equals("AStar"))
 		{
 			this.RoutingAlgorithm = Utility.RoutingAlgorithm.AStarSearch;
 			return;
 		}
-		if (routingAlgo == "Dijkstra")
+		if (routingAlgo.equals("Dijkstra"))
 		{
 			this.RoutingAlgorithm = Utility.RoutingAlgorithm.Dijkstra;
 			return;

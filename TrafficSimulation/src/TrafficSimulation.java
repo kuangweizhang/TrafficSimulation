@@ -52,12 +52,12 @@ public class TrafficSimulation {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 		        .newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = (Document) documentBuilder.parse(xmlFile);
-		retval.setRoutingAlgorithm(((org.w3c.dom.Document) document).
+		org.w3c.dom.Document document =  documentBuilder.parse(xmlFile);
+		retval.setRoutingAlgorithm((document).
 				getElementsByTagName("RoutingAlgo").item(0).getTextContent());
-		retval.setRoutingDelayOption(((org.w3c.dom.Document) document).
+		retval.setRoutingDelayOption(( document).
 				getElementsByTagName("DelayOption").item(0).getTextContent());
-		retval.setRoutingAlgorithm(((org.w3c.dom.Document) document).
+		retval.setMapFile(( document).
 				getElementsByTagName("MapFile").item(0).getTextContent());
 		retval.setRandomSeed(System.currentTimeMillis());
 		return retval;

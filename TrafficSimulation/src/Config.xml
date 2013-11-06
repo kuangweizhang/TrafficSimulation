@@ -1,8 +1,0 @@
-<Settings>
-	<!--The routing algorithm should be one of
-	the algorithm from Routing package-->
-	<RoutingAlgo>Greedy</RoutingAlgo>
-	<DelayOption>Reservation</DelayOption>
-	<MapFile>map1.osm</MapFile>
-	<RuningTime/>
-</Settings>
