@@ -10,7 +10,12 @@ public class Neighbor {
 	private double SpeedLimit;
 	private Integer NumberOfLane;
 	private int NumberOfCars;
-	private TimeInterval StandardDelay = TimeInterval.FromHour(Distance/(double)SpeedLimit);
+	private TimeInterval StandardDelay;
+	/**
+	 * Estimated average length of the car and space is 0.008m.
+	 */
+	private final int MaxNumberOfCars;
+	
 	/**
 	 * 
 	 * Every single element represent the number of reservations during next Universal time interval.
@@ -24,6 +29,9 @@ public class Neighbor {
 		Distance = CoordinateCalculator.CoordinateToDistance(me.getLongitude(), me.getLatitude(), 
 				myNeighbor.getLongitude(), myNeighbor.getLatitude());
 		SpeedLimit = speedLimit;
+		StandardDelay = TimeInterval.FromHour(Distance/(double)SpeedLimit);
+		// Estimated average length of the car and space is 0.008m.
+		MaxNumberOfCars = (int)(Distance / 0.008);
 	}
 	
 	public TimeInterval getStandardDelay() {
@@ -51,11 +59,6 @@ public class Neighbor {
 		return TimeInterval.FromHour(Distance/(double)SpeedLimit).
 				addInterval(extraInterval(NumberOfCars));
 	}
-	
-	/**
-	 * Estimated average length of the car and space is 0.008m.
-	 */
-	private final int MaxNumberOfCars = (int)(Distance / 0.008);
 	
 	/**
 	 * Heuristic function for extra delay due to the number of

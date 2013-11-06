@@ -85,12 +85,12 @@ public class Configurations {
 		{
 			throw new Exception("Routing Algo is empty");
 		}
-		if (routingOption == "RunOnce")
+		if (routingOption.equals("RunOnce"))
 		{
 			this.RoutingOption = Utility.RoutingOption.RunOnce;
 			return;
 		}
-		if (routingOption == "Iterative")
+		if (routingOption.equals("Iterative"))
 		{
 			this.RoutingOption = Utility.RoutingOption.Iterative;
 			return;

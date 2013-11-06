@@ -1,8 +1,14 @@
 <Settings>
-	<!--The routing algorithm should be one of
-	the algorithm from Routing package-->
+
+	<!--Options: Greedy, AStarSearch, Dijkstra -->
 	<RoutingAlgo>Greedy</RoutingAlgo>
+	
+	<!--Options: RunOnce, Iterative-->
+	<RoutingOption>Iterative</RoutingOption>
+	
+	<!--Options:NoTraffic, CurrentTraffic, Reservation -->
 	<DelayOption>Reservation</DelayOption>
-	<MapFile>map1.osm</MapFile>
-	<RuningTime/>
+	
+	<!--Name of the file-->
+	<MapFile>map2.osm</MapFile>
 </Settings>

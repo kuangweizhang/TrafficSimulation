@@ -32,11 +32,15 @@ public class RoutingStrategy {
 			break;
 		case CurrentTraffic:
 			DelayFunction = new GetDelayWithTraffic();
+			break;
 		case Reservation:
 			DelayFunction = new GetDelayWithReservation();
+			break;
 		default:
 			throw new UnsupportedOperationException();
 		}
+		
+		this.RoutingOption = configurations.getRoutingOption();
 	}
 	
 	public RoutingResult GetNextCity(Topology topology, long destinationCity, long currentCity, double maxSpeed) throws Exception

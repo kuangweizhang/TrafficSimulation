@@ -55,6 +55,8 @@ public class TrafficSimulation {
 		org.w3c.dom.Document document =  documentBuilder.parse(xmlFile);
 		retval.setRoutingAlgorithm((document).
 				getElementsByTagName("RoutingAlgo").item(0).getTextContent());
+		retval.setRoutingOption(( document).
+				getElementsByTagName("RoutingOption").item(0).getTextContent());
 		retval.setRoutingDelayOption(( document).
 				getElementsByTagName("DelayOption").item(0).getTextContent());
 		retval.setMapFile(( document).
