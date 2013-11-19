@@ -1,5 +1,7 @@
 package Routing;
 
+import java.beans.DesignMode;
+
 import Topology.CoordinateCalculator;
 import Topology.Intersection;
 import Topology.Neighbor;
@@ -18,15 +20,16 @@ public class LazyGreedyRouting extends RoutingAlgorithmBase{
 	public RoutingResult getRoutingResult(Topology topology,
 			long destinationCity, long currentCity) throws Exception
 	{
+		Intersection destIntersection = topology.getIntersection(destinationCity);
 		Intersection currentIntersection = topology.getIntersection(currentCity);
 		long nextcity = Long.MIN_VALUE;
 		double minDistance = Double.MAX_VALUE;
 		for (Neighbor neighbor : currentIntersection.GetNeighbors()) {
 			if (CoordinateCalculator.CalculateDistanceBetween(
-					currentIntersection, neighbor) < minDistance)
+					destIntersection, neighbor) < minDistance)
 			{
 				minDistance = CoordinateCalculator.CalculateDistanceBetween(
-						currentIntersection, neighbor);
+						destIntersection, neighbor);
 				nextcity = neighbor.getNeighborValue().getId();
 			}
 		}

@@ -1,38 +1,50 @@
 package Utility;
 
-public class Configurations {
+public class Configurations
+{
 
 	private RoutingAlgorithm RoutingAlgorithm;
 	private RoutingOption RoutingOption;
 	private RoutingDelayOption routingDelayOption;
 	private String MapFile;
 	private long RandomSeed;
-	
-	
-	public RoutingDelayOption getRoutingDelayOption() {
+	private boolean Logging;
+
+	public boolean isLogging()
+	{
+		return Logging;
+	}
+
+	public RoutingDelayOption getRoutingDelayOption()
+	{
 		return routingDelayOption;
 	}
 
-	public void setRoutingDelayOption(RoutingDelayOption routingDelayOption) {
+	public void setRoutingDelayOption(RoutingDelayOption routingDelayOption)
+	{
 		this.routingDelayOption = routingDelayOption;
 	}
 
-	public RoutingOption getRoutingOption() {
+	public RoutingOption getRoutingOption()
+	{
 		return RoutingOption;
 	}
-	
-	public String getMapFile() {
+
+	public String getMapFile()
+	{
 		return MapFile;
 	}
 
-	public void setMapFile(String mapFile) {
+	public void setMapFile(String mapFile)
+	{
 		MapFile = mapFile;
 	}
 
-	public RoutingAlgorithm getRoutingAlgo() {
+	public RoutingAlgorithm getRoutingAlgo()
+	{
 		return RoutingAlgorithm;
 	}
-	
+
 	public void setRoutingDelayOption(String delayOption) throws Exception
 	{
 		if (delayOption.isEmpty())
@@ -57,7 +69,8 @@ public class Configurations {
 		throw new Exception("Routing Algorithm not supported:" + delayOption);
 	}
 
-	public void setRoutingAlgorithm(String routingAlgo) throws Exception {
+	public void setRoutingAlgorithm(String routingAlgo) throws Exception
+	{
 		if (routingAlgo.isEmpty())
 		{
 			throw new Exception("Routing Algo is empty");
@@ -79,8 +92,9 @@ public class Configurations {
 		}
 		throw new Exception("Routing Algorithm not supported:" + routingAlgo);
 	}
-	
-	public void setRoutingOption(String routingOption) throws Exception {
+
+	public void setRoutingOption(String routingOption) throws Exception
+	{
 		if (routingOption.isEmpty())
 		{
 			throw new Exception("Routing Algo is empty");
@@ -98,12 +112,33 @@ public class Configurations {
 		throw new Exception("Routing Option not supported:" + routingOption);
 	}
 
-	public long getRandomSeed() {
+	public void setLogging(String loggingOption) throws Exception
+	{
+		if (loggingOption.isEmpty())
+		{
+			throw new Exception("Logging Option is empty");
+		}
+		if (loggingOption.equals("True"))
+		{
+			this.Logging = true;
+			return;
+		}
+		if (loggingOption.equals("False"))
+		{
+			this.Logging = false;
+			return;
+		}
+		throw new Exception("Logging Option not supported:" + loggingOption);
+	}
+
+	public long getRandomSeed()
+	{
 		return RandomSeed;
 	}
 
-	public void setRandomSeed(long randomSeed) {
+	public void setRandomSeed(long randomSeed)
+	{
 		RandomSeed = randomSeed;
 	}
-	
+
 }

@@ -77,7 +77,7 @@ public class TimeInterval implements Cloneable{
 	
 	public static TimeInterval FromeSeconds(int sec)
 	{
-		return new TimeInterval(sec/3600, (sec / 60)%60 , sec %3600);
+		return new TimeInterval(sec/3600, (sec / 60)%60 , sec % 60);
 	}
 	
 	public static TimeInterval MaxTimeInterval = new TimeInterval(1000, 0, 0);
@@ -127,7 +127,14 @@ public class TimeInterval implements Cloneable{
 	
 	public TimeInterval devideBy(int k)
 	{
-		return TimeInterval.FromeSeconds(this.getTotalSeconds()/k);
+		if(k == 0)
+		{
+			return TimeInterval.FromeSeconds(0);
+		}
+		else
+		{
+			return TimeInterval.FromeSeconds(this.getTotalSeconds()/k);
+		}
 	}
 	
 	public TimeInterval clone()

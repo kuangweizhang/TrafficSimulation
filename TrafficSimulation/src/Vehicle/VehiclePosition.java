@@ -44,4 +44,22 @@ public class VehiclePosition {
 		this.ToIntersection = to;
 		this.KM = km;
 	}
+	
+	public void ArrivedIntersection()
+	{
+		this.FromIntersection = this.ToIntersection;
+		this.KM = 0;
+	}
+	
+	public String toString()
+	{
+		StringBuilder position = new StringBuilder();
+		position.append("From:");
+		position.append(this.FromIntersection);
+		position.append(" To:");
+		position.append(this.ToIntersection);
+		position.append(" Distance:");
+		position.append(this.KM);
+		return position.toString();
+	}
 }

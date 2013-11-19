@@ -7,7 +7,7 @@
 	<RoutingOption>Iterative</RoutingOption>
 	
 	<!--Options:NoTraffic, CurrentTraffic, Reservation -->
-	<DelayOption>Reservation</DelayOption>
+	<DelayOption>CurrentTraffic</DelayOption>
 	
 	<!--Name of the file-->
 	<MapFile>map2.osm</MapFile>

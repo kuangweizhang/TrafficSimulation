@@ -3,6 +3,7 @@ package Routing;
 import java.sql.Time;
 import java.util.LinkedList;
 
+import Simulator.Simulator;
 import Topology.Intersection;
 import Topology.Topology;
 import Utility.RoutingResult;
@@ -27,8 +28,10 @@ public class GreedyRouting extends RoutingAlgorithmBase{
 		{
 			long nextCity = lazyGreedyRouting.getRoutingResult(
 					topology, destinationCity, currentCity).getNextCity();
-			path.addLast(currentCity);
-			expectingDelay.addInterval(delayFunction.GetDelay(currentCity, nextCity, null));
+			path.addLast(nextCity);
+			// notes here...
+			expectingDelay.addInterval(delayFunction.GetDelay(currentCity, nextCity, 
+					expectingDelay.addInterval(Simulator.WorldClock)));
 			currentCity = nextCity;
 		}
 		

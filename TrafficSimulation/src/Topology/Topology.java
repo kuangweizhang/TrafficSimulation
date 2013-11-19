@@ -255,7 +255,14 @@ public class Topology {
 	
 	public double DistanceBetween(long city1, long city2) throws Exception
 	{
-		return getIntersection(city1).GetNeighborById(city2).getDistance();
+		if(city1 == city2)
+		{
+			return 0;
+		}
+		else
+		{
+			return getIntersection(city1).GetNeighborById(city2).getDistance();
+		}
 	}
 	
 	public int NumberOfIntersections()

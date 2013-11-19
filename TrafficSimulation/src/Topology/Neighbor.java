@@ -20,7 +20,7 @@ public class Neighbor {
 	 * 
 	 * Every single element represent the number of reservations during next Universal time interval.
 	 */
-	LinkedList<Integer> NumberOfReservations;
+	LinkedList<Integer> NumberOfReservations = new LinkedList<Integer>();
 
 	public Neighbor(Intersection me, Intersection myNeighbor, int numberOfLaneBetween, double speedLimit)
 	{
@@ -73,7 +73,14 @@ public class Neighbor {
 			return TimeInterval.MaxTimeInterval;
 		}
 		else {
-			return TimeInterval.FromMinute((int) (10*Math.log(numberOfCars)));
+			if(numberOfCars <= 1)
+			{
+				return new TimeInterval();
+			}
+			else
+			{
+				return TimeInterval.FromMinute((int) (10*Math.log(numberOfCars)));
+			}
 		}
 	}
 	

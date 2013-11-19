@@ -1,6 +1,9 @@
 package Vehicle;
 
 import java.util.LinkedList;
+import java.util.Random;
+
+import javax.swing.text.Position;
 
 import Routing.RoutingStrategy;
 import Simulator.Simulator;
@@ -93,6 +96,7 @@ public class Vehicle {
 		this.Topology = topology;
 		this.RoutingStrategy = routingStrategy;
 		this.Stage = VehicleStage.AtIntersection;
+		this.Position = new VehiclePosition(this.StartCity, this.StartCity, 0);
 		this.ExpectingArrivalTime = getExpectingArrivalTime();
 	}
 	
@@ -132,6 +136,53 @@ public class Vehicle {
 		}
 	}
 	
+	public void goingForward(TimeInterval timeInterval) throws Exception
+	{
+		if (this.Stage == VehicleStage.OnRoad)
+		{
+			goingForwardAtRoad(timeInterval);
+		}
+		else {
+			goingForwardAtIntersection(timeInterval);
+		}
+	}
+	
+	private void goingForwardAtIntersection(TimeInterval timeInterval) throws Exception
+	{
+		long fromCityId = this.getPosition()
+				.getFromIntersection();
+		long nextCity = this.getNextCity();
+		
+		if (Topology.CurrentDelayBetween(fromCityId, nextCity)
+				.earlierThan(TimeInterval.MaxTimeInterval))
+		{
+			this.setStage(VehicleStage.OnRoad);
+			this.UpdatePosition(new VehiclePosition(
+					fromCityId, nextCity, 0));
+			this.Topology.AcquireUsingRoad(fromCityId, nextCity);
+		}
+	}
+	
+	private void goingForwardAtRoad(TimeInterval timeInterval) throws Exception
+	{
+		double newKM = this.Position.getKM()
+				+ timeInterval.distanceTraveled(MaxSpeed);
+		if (newKM >= Topology.DistanceBetween(
+				this.Position.getFromIntersection(),
+				this.Position.getToIntersection()))
+		{
+			this.Topology.ReleaseUsingRoad(
+					this.Position.getFromIntersection(),
+					this.Position.getToIntersection());
+			this.setStage(VehicleStage.AtIntersection);
+			this.Position.ArrivedIntersection();
+			this.UpdatePosition(this.Position);
+		} else
+		{
+			this.Position.setKM(newKM);
+		}
+	}
+	
 //	public RoutingStrategy getRoutingStrategy()
 //	{
 //		return this.RoutingStrategy;
@@ -148,12 +199,12 @@ public class Vehicle {
 //		UpdatePosition(newPosition, currentTime);
 //	}
 	
-	public void UpdatePosition(VehiclePosition newPosition, TimeInterval currentTime)
+	public void UpdatePosition(VehiclePosition newPosition)
 	{
 		Position = newPosition;
 		if (DestinationCity == Position.getFromIntersection())
 		{
-			ArrivalTime = currentTime;
+			ArrivalTime = Simulator.WorldClock.clone();
 			Arrived = true;
 		}
 	}
@@ -162,4 +213,25 @@ public class Vehicle {
 		return Id;
 	}
 	
+	public String toString()
+	{
+		StringBuilder log = new StringBuilder();
+		log.append("ID:");
+		log.append(this.Id);
+		log.append(" Position:");
+		log.append(this.Position);
+		log.append(" StartCity:");
+		log.append(this.StartCity);
+		log.append(" DestinationCity:");
+		log.append(this.DestinationCity);
+		log.append(" MaxSpeed:");
+		log.append(this.MaxSpeed);
+		log.append(" StartTime:");
+		log.append(this.StartTime);
+		log.append(" ArrivalTime:");
+		log.append(this.ArrivalTime);
+		log.append(" Stage:");
+		log.append(this.Stage.name());
+		return log.toString();
+	}
 }
