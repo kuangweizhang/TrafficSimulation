@@ -13,6 +13,8 @@ import Utility.TimeInterval;
 import Vehicle.Vehicle;
 import Vehicle.VehiclePosition;
 import Vehicle.VehicleStage;
+import Routing.DijkstraRouting;
+import Routing.GetDelayWithoutTraffic;
 import Routing.RoutingStrategy;
 import Topology.Topology;
 
@@ -123,7 +125,7 @@ public class Simulator
 	{
 		long startCity = GetRandomCity();
 		long endCity = GetRandomCity();
-		while (!Connective(startCity, endCity) || startCity == endCity)
+		while (startCity == endCity || !Connective(startCity, endCity))
 		{
 			startCity = GetRandomCity();
 			endCity = GetRandomCity();
@@ -135,9 +137,11 @@ public class Simulator
 		Vehicles.put(newVehicle.getId(), newVehicle);
 	}
 
-	private boolean Connective(long city1, long city2)
+	private boolean Connective(long city1, long city2) throws Exception
 	{
-		return true;
+		DijkstraRouting routing = new DijkstraRouting();
+		return null != routing.getRoutingResult(this.Topology, city2, city1,
+				60, new GetDelayWithoutTraffic());
 	}
 
 	private long GetRandomCity()

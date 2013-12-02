@@ -62,6 +62,10 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 					}
 				}
 			}
+			if(minId == -1)
+			{
+				return null;
+			}
 			cityPointer = minId;
 		}
 
