@@ -1,7 +1,7 @@
 <Settings>
 
 	<!--Options: Greedy, AStarSearch, Dijkstra -->
-	<RoutingAlgo>Greedy</RoutingAlgo>
+	<RoutingAlgo>Dijkstra</RoutingAlgo>
 	
 	<!--Options: RunOnce, Iterative-->
 	<RoutingOption>Iterative</RoutingOption>

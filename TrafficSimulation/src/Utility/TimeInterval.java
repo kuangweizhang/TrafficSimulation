@@ -153,6 +153,6 @@ public class TimeInterval implements Cloneable{
 		return this.Hours + ":" + this.Minutes + ":" + this.Seconds;
 	}
 	
-	public final static TimeInterval LARGE_VALUE = new TimeInterval(99999999, 99999999, 99999999);
+	public final static TimeInterval LARGE_VALUE = new TimeInterval(9999, 59, 59);
 	
 }

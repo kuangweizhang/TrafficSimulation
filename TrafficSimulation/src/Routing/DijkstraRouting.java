@@ -15,6 +15,7 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 
 	static long StartCity = 0;
 	static long DestinationCity = 0;
+
 	@Override
 	public RoutingResult getRoutingResult(Topology topology,
 			long destinationCity, long currentCity, double maxSpeed,
@@ -24,7 +25,7 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 		PreviousCity = new HashMap<Long, Long>();
 		StartCity = currentCity;
 		DestinationCity = destinationCity;
-		
+
 		HashSet<Long> visited = new HashSet<Long>();
 		SetDelayTo(currentCity, new TimeInterval());
 		long cityPointer = currentCity;
@@ -47,14 +48,14 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 					PreviousCity.put(neigbor, cityPointer);
 				}
 			}
-			
+
 			TimeInterval mInterval = TimeInterval.LARGE_VALUE;
 			long minId = -1;
-			for(long neighbor : distance.keySet())
+			for (long neighbor : distance.keySet())
 			{
-				if(!visited.contains(neighbor))
+				if (!visited.contains(neighbor))
 				{
-					if(GetDelayTo(neighbor).isSmaller(mInterval))
+					if (GetDelayTo(neighbor).isSmaller(mInterval))
 					{
 						mInterval = GetDelayTo(neighbor);
 						minId = neighbor;
@@ -63,20 +64,20 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 			}
 			cityPointer = minId;
 		}
-		
+
 		LinkedList<Long> path = findPath();
-		RoutingResult retval = new RoutingResult(path.get(0), GetDelayTo(destinationCity),
-				 path);
+		RoutingResult retval = new RoutingResult(path.get(0),
+				GetDelayTo(destinationCity), path);
 		return retval;
 	}
-	
+
 	private LinkedList<Long> findPath()
 	{
 		long cityPointer = DestinationCity;
 		LinkedList<Long> retval = new LinkedList<Long>();
-		while(cityPointer != StartCity)
+		while (cityPointer != StartCity)
 		{
-			retval.add(cityPointer);
+			retval.addFirst(cityPointer);
 			cityPointer = PreviousCity.get(cityPointer);
 		}
 		return retval;
@@ -88,7 +89,7 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 	private HashMap<Long, TimeInterval> distance = null;
 
 	private HashMap<Long, Long> PreviousCity = null;
-	
+
 	private TimeInterval GetDelayTo(long city1)
 	{
 		if (distance.containsKey(city1))
