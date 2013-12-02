@@ -33,7 +33,7 @@ public class TimeInterval implements Cloneable{
 		this.Seconds = 0;
 	}
 	
-	public TimeInterval addInterval(TimeInterval timeInterval)
+	public TimeInterval addIntervalToThis(TimeInterval timeInterval)
 	{
 		this.Seconds += timeInterval.getSeconds();
 		if (this.Seconds >= 60)
@@ -49,6 +49,13 @@ public class TimeInterval implements Cloneable{
 		}
 		this.Hours += timeInterval.Hours;
 		return this;
+	}
+	
+	public TimeInterval addInterval(TimeInterval timeInterval)
+	{
+		TimeInterval retval = this.clone();
+		retval.addIntervalToThis(timeInterval);
+		return retval;
 	}
 	
 	public double devidedBy(TimeInterval timeInterval)

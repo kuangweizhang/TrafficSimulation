@@ -1,11 +1,10 @@
 package Routing;
 
-import java.awt.Point;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import Simulator.Simulator;
 import Topology.Topology;
 import Utility.RoutingResult;
 import Utility.TimeInterval;
@@ -37,14 +36,22 @@ public class DijkstraRouting extends RoutingAlgorithmBase
 					.GetNeighborIds())
 			{
 				if (GetDelayTo(cityPointer).addInterval(
-						delayFunction.GetDelay(cityPointer, neigbor))
+						delayFunction.GetDelay(
+								cityPointer, 
+								neigbor,
+								GetDelayTo(cityPointer).addInterval(Simulator.WorldClock)
+								))
 						.isSmaller(GetDelayTo(neigbor)))
 				{
 					SetDelayTo(
 							neigbor,
 							GetDelayTo(cityPointer).addInterval(
 									delayFunction
-											.GetDelay(cityPointer, neigbor)));
+											.GetDelay(
+													cityPointer, 
+													neigbor,
+													GetDelayTo(cityPointer).addInterval(Simulator.WorldClock)
+													)));
 					PreviousCity.put(neigbor, cityPointer);
 				}
 			}
