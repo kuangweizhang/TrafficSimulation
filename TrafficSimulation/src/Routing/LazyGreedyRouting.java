@@ -1,6 +1,7 @@
 package Routing;
 
 import java.beans.DesignMode;
+import java.util.HashSet;
 
 import Topology.CoordinateCalculator;
 import Topology.Intersection;
@@ -14,11 +15,11 @@ public class LazyGreedyRouting extends RoutingAlgorithmBase{
 	public RoutingResult getRoutingResult(Topology topology,
 			long destinationCity, long currentCity, double maxSpeed,
 			IGetDelay delayFunction) throws Exception {
-		return getRoutingResult(topology, destinationCity, currentCity);
+		return getRoutingResult(topology, destinationCity, currentCity, new HashSet<Long>());
 	}
 	
 	public RoutingResult getRoutingResult(Topology topology,
-			long destinationCity, long currentCity) throws Exception
+			long destinationCity, long currentCity, HashSet<Long> visited) throws Exception
 	{
 		Intersection destIntersection = topology.getIntersection(destinationCity);
 		Intersection currentIntersection = topology.getIntersection(currentCity);
@@ -26,7 +27,8 @@ public class LazyGreedyRouting extends RoutingAlgorithmBase{
 		double minDistance = Double.MAX_VALUE;
 		for (Neighbor neighbor : currentIntersection.GetNeighbors()) {
 			if (CoordinateCalculator.CalculateDistanceBetween(
-					destIntersection, neighbor) < minDistance)
+					destIntersection, neighbor) < minDistance && 
+					!visited.contains(neighbor.getNeighborValue().getId()))
 			{
 				minDistance = CoordinateCalculator.CalculateDistanceBetween(
 						destIntersection, neighbor);

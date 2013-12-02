@@ -11,4 +11,12 @@ public class GetDelayWithTraffic implements IGetDelay {
 		return Topology.getIntersection(startCity).
 				GetNeighborById(destinationCity).getCurrentDelay();
 	}
+
+	@Override
+	public TimeInterval GetDelay(long startCity, long destinationCity)
+			throws Exception
+	{
+		return Topology.getIntersection(startCity).
+				GetNeighborById(destinationCity).getCurrentDelay();
+	}
 }

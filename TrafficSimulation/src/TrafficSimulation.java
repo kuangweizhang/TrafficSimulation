@@ -30,7 +30,7 @@ public class TrafficSimulation
 		}
 
 		int tickCount = 0;
-		while (simulator.WorldClock.earlierThan(RunningTime))
+		while (simulator.WorldClock.earlierThan(RunningTime) && !simulator.isFinished())
 		{
 			simulator.Run();
 			if (tickCount == ReportFrequency)
@@ -40,6 +40,8 @@ public class TrafficSimulation
 			}
 			tickCount++;
 		}
+		
+		simulator.FinishRun();
 	}
 
 	private static Configurations ParseConfigFile(String FileName)
@@ -68,9 +70,8 @@ public class TrafficSimulation
 				.getTextContent());
 		retval.setLogging((document).getElementsByTagName("DetailLog").item(0)
 				.getTextContent());
-		retval.setRandomSeed(System.currentTimeMillis());
+		retval.setRandomSeed(1);
 		return retval;
-
 	}
 
 	private static String ParseArgs(String[] args)

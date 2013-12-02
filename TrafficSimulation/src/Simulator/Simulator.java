@@ -47,23 +47,34 @@ public class Simulator
 	public void Run() throws Exception
 	{
 		Simulator.WorldClock.addInterval(UnviersalInterval);
-		LinkedList<Long> arrivedVehicles = new LinkedList<Long>();
+		//LinkedList<Long> arrivedVehicles = new LinkedList<Long>();
 		for (long vehicleId : Vehicles.keySet())
 		{
 			Vehicle currentVehicle = Vehicles.get(vehicleId);
+			//System.out.println("World clock write:" + WorldClock);
 			this.WrittingLogs("Current Vehicle:" + currentVehicle.toString());
 			currentVehicle.goingForward(this.UnviersalInterval);
 			this.WrittingLogs("Current Vehicle After Move:"
 					+ currentVehicle.toString());
 			if (currentVehicle.isArrived())
 			{
-				arrivedVehicles.add(currentVehicle.getId());
+				ArrivedVehicles.put(currentVehicle.getId(), currentVehicle);
 			}
 		}
-		for (Long arrivedVehiclesId : arrivedVehicles)
+		for (Long arrivedVehiclesId : ArrivedVehicles.keySet())
 		{
 			Vehicles.remove(arrivedVehiclesId);
 		}
+	}
+	
+	public boolean isFinished()
+	{
+		return Vehicles.keySet().size() == 0;
+	}
+	
+	public void FinishRun()
+	{
+		this.Logwritter.close();
 	}
 
 	private void WrittingLogs(String log)
@@ -71,6 +82,7 @@ public class Simulator
 		if(Logwritter != null)
 		{
 			Logwritter.println(Simulator.WorldClock + ":" + log);
+			Logwritter.flush();
 		}
 	}
 

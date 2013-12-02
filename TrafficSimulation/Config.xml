@@ -11,4 +11,7 @@
 	
 	<!--Name of the file-->
 	<MapFile>map2.osm</MapFile>
+	
+	<!--Detail logs or not, Options: True, False-->
+	<DetailLog>True</DetailLog>
 </Settings>

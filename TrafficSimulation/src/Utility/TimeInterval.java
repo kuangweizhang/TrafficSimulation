@@ -61,6 +61,11 @@ public class TimeInterval implements Cloneable{
 		return this.getTotalSeconds() < timeInterval.getTotalSeconds();
 	}
 	
+	public boolean isSmaller(TimeInterval timeInterval)
+	{
+		return earlierThan(timeInterval);
+	}
+	
 	public int getTotalSeconds(){
 		return this.Hours * 3600 + this.Minutes*60 + this.Seconds;
 	}
@@ -147,4 +152,7 @@ public class TimeInterval implements Cloneable{
 	{
 		return this.Hours + ":" + this.Minutes + ":" + this.Seconds;
 	}
+	
+	public final static TimeInterval LARGE_VALUE = new TimeInterval(99999999, 99999999, 99999999);
+	
 }

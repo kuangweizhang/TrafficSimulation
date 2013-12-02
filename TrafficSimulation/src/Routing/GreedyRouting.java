@@ -1,6 +1,7 @@
 package Routing;
 
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import Simulator.Simulator;
@@ -23,12 +24,14 @@ public class GreedyRouting extends RoutingAlgorithmBase{
 		LinkedList<Long> path = new LinkedList<Long>();
 		TimeInterval expectingDelay = new TimeInterval();
 		LazyGreedyRouting lazyGreedyRouting = new LazyGreedyRouting();
-		
+		HashSet<Long> visited = new HashSet<Long>();
+		visited.add(currentCity);
 		while(currentCity != destinationCity)
 		{
 			long nextCity = lazyGreedyRouting.getRoutingResult(
-					topology, destinationCity, currentCity).getNextCity();
+					topology, destinationCity, currentCity, visited).getNextCity();
 			path.addLast(nextCity);
+			visited.add(nextCity);
 			// notes here...
 			expectingDelay.addInterval(delayFunction.GetDelay(currentCity, nextCity, 
 					expectingDelay.addInterval(Simulator.WorldClock)));
