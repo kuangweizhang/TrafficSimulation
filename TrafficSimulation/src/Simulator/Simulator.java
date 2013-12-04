@@ -5,14 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Random;
-
 import Utility.Configurations;
 import Utility.TimeInterval;
 import Vehicle.Vehicle;
-import Vehicle.VehiclePosition;
-import Vehicle.VehicleStage;
 import Routing.DijkstraRouting;
 import Routing.GetDelayWithoutTraffic;
 import Routing.RoutingStrategy;
@@ -20,7 +16,6 @@ import Topology.Topology;
 
 public class Simulator
 {
-
 	private Topology Topology;
 	private Configurations Configurations;
 	public static TimeInterval WorldClock;
@@ -29,7 +24,7 @@ public class Simulator
 	private static long VehicleIdCounter = 0;
 	private HashMap<Long, Vehicle> Vehicles = new HashMap<Long, Vehicle>();
 	private HashMap<Long, Vehicle> ArrivedVehicles = new HashMap<Long, Vehicle>();
-	private final double MaxSpeed = 60;
+	public static final double MaxSpeed = 60;
 	private Random RandomCity;
 	private PrintWriter Logwritter;
 
@@ -48,7 +43,6 @@ public class Simulator
 
 	public void Run() throws Exception
 	{
-		Simulator.WorldClock.addIntervalToThis(UnviersalInterval);
 		// LinkedList<Long> arrivedVehicles = new LinkedList<Long>();
 		for (long vehicleId : Vehicles.keySet())
 		{
@@ -67,6 +61,7 @@ public class Simulator
 		{
 			Vehicles.remove(arrivedVehiclesId);
 		}
+		Simulator.WorldClock.addIntervalToThis(UnviersalInterval);
 	}
 
 	public boolean isFinished()
@@ -97,12 +92,27 @@ public class Simulator
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(WorldClock);
-		stringBuilder.append(" ");
+		for(int i = stringBuilder.length(); i <= 10; i++)
+		{
+			stringBuilder.append(" ");
+		}
 		stringBuilder.append("Total cars:"
 				+ (this.Vehicles.size() + this.ArrivedVehicles.size()) + " ");
+		for(int i = stringBuilder.length(); i <= 32; i++)
+		{
+			stringBuilder.append(" ");
+		}
 		stringBuilder.append("Driving Cars:" + (this.Vehicles.size()) + " ");
+		for(int i = stringBuilder.length(); i <= 52; i++)
+		{
+			stringBuilder.append(" ");
+		}
 		stringBuilder.append("Arrived Cars:" + (this.ArrivedVehicles.size())
 				+ " ");
+		for(int i = stringBuilder.length(); i <= 75; i++)
+		{
+			stringBuilder.append(" ");
+		}
 		stringBuilder.append("Average Alpha" + getAverageAlpha());
 
 		return stringBuilder.toString();
@@ -117,10 +127,30 @@ public class Simulator
 			counterInterval
 					.addIntervalToThis(arraiedVehicle.getExpectingDifference());
 			kCounter++;
+			//System.out.println("Individual Alpha:" + arraiedVehicle.getExpectingDifference());
 		}
+		//System.out.println(kCounter);
+		//System.out.println(counterInterval);
 		return counterInterval.devideBy(kCounter);
 	}
+	
+	/**
+	 * Add vehicles to system according to the VehicleGenerateRate
+	 */
+	public void AddVehicleToSystem() throws Exception
+	{
+		int numberOfVehicleToGenerate = (int) (Topology.NumberOfIntersections() * 
+				Configurations.getVehicleGenerateRate());
+		for(int i = 0; i < numberOfVehicleToGenerate; i++)
+		{
+			AddVehicle();
+		}
+	}
 
+	/**
+	 * Add one vehicle from and to random selected cities.
+	 * @throws Exception
+	 */
 	public void AddVehicle() throws Exception
 	{
 		long startCity = GetRandomCity();

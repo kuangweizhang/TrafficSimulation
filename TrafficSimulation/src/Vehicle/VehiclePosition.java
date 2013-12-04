@@ -9,7 +9,18 @@ public class VehiclePosition {
 	private long FromIntersection;
 	private long ToIntersection;
 	private double KM;
+	private double Total;
 	
+	public double getTotal()
+	{
+		return Total;
+	}
+
+	public void setTotal(double total)
+	{
+		Total = total;
+	}
+
 	public boolean InCity()
 	{
 		return FromIntersection == ToIntersection;
@@ -39,10 +50,11 @@ public class VehiclePosition {
 		KM = kM;
 	}
 
-	public VehiclePosition(long from, long to, double km) {
+	public VehiclePosition(long from, long to, double km, double total) {
 		this.FromIntersection = from;
 		this.ToIntersection = to;
 		this.KM = km;
+		this.Total = total;
 	}
 	
 	public void ArrivedIntersection()
@@ -60,6 +72,8 @@ public class VehiclePosition {
 		position.append(this.ToIntersection);
 		position.append(" Distance:");
 		position.append(this.KM);
+		position.append(" Out of:");
+		position.append(this.Total);
 		return position.toString();
 	}
 }

@@ -1,9 +1,6 @@
 import java.io.File;
-
-import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import Simulator.Simulator;
 import Utility.Configurations;
 import Utility.TimeInterval;
@@ -17,21 +14,18 @@ public class TrafficSimulation
 	 */
 	private static int ReportFrequency = 1;
 
-	private static TimeInterval RunningTime = new TimeInterval(1, 0, 0);
+	private static TimeInterval RunningTime = new TimeInterval(100, 0, 0);
 
 	public static void main(String[] args) throws Exception
 	{
 		String configFileNameString = ParseArgs(args);
 		Configurations configs = ParseConfigFile(configFileNameString);
 		Simulator simulator = new Simulator(configs);
-		for (int i = 0; i <= 10; i++)
-		{
-			simulator.AddVehicle();
-		}
 
 		int tickCount = 0;
-		while (simulator.WorldClock.earlierThan(RunningTime) && !simulator.isFinished())
+		while (simulator.WorldClock.earlierThan(RunningTime))
 		{
+			simulator.AddVehicleToSystem();
 			simulator.Run();
 			if (tickCount == ReportFrequency)
 			{
@@ -70,7 +64,18 @@ public class TrafficSimulation
 				.getTextContent());
 		retval.setLogging((document).getElementsByTagName("DetailLog").item(0)
 				.getTextContent());
-		retval.setRandomSeed(1);
+		retval.setVehicleGenerateRate(Double.parseDouble(((document).getElementsByTagName("VehicleGenerateRate").item(0)
+				.getTextContent())));
+		String seedValue = ((document).getElementsByTagName("RandomSeed").item(0)
+				.getTextContent());
+		if(seedValue.equals("-"))
+		{
+			retval.setRandomSeed(System.currentTimeMillis());
+		}
+		else
+		{
+			retval.setRandomSeed(Integer.parseInt(seedValue));
+		}
 		return retval;
 	}
 

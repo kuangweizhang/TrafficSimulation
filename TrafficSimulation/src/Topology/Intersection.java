@@ -94,7 +94,7 @@ public class Intersection {
 	 * Add an neighbor to this intersection.
 	 * @param neighbor
 	 */
-	public void AddNeighbor(Intersection neighbor, int numberOfLanes, int speedLimit)
+	public void AddNeighbor(Intersection neighbor, int numberOfLanes, double speedLimit)
 	{
 		this.Neighbors.put(neighbor.id, new Neighbor(this, neighbor, numberOfLanes, speedLimit));
 	}

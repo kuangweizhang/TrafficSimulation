@@ -46,6 +46,8 @@ public class Vehicle {
 	
 	public TimeInterval getExpectingDifference()
 	{
+		//System.out.println(this);
+		//System.out.println("Arrive:" + ArrivalTime + " Expecting:" + ExpectingArrivalTime);
 		return ArrivalTime.subtractInterval(ExpectingArrivalTime);
 	}
 	
@@ -91,24 +93,26 @@ public class Vehicle {
 		this.Id = id;
 		this.StartCity = startCity;
 		this.DestinationCity = destinationCity;
-		this.StartTime = currentTime;
+		this.StartTime = currentTime.clone();
 		this.MaxSpeed = maxSpeed;
 		this.Topology = topology;
 		this.RoutingStrategy = routingStrategy;
 		this.Stage = VehicleStage.AtIntersection;
-		this.Position = new VehiclePosition(this.StartCity, this.StartCity, 0);
+		this.Position = new VehiclePosition(this.StartCity, this.StartCity, 0, 0);
 		this.ExpectingArrivalTime = getExpectingArrivalTime();
 	}
 	
 	private TimeInterval getExpectingArrivalTime() throws Exception
 	{
-		Configurations configs= new Configurations();
+		Configurations configs = new Configurations();
 		configs.setRoutingDelayOption(RoutingDelayOption.NoTraffic);
-		configs.setRoutingAlgorithm("Greedy");
+		configs.setRoutingAlgorithm("Dijkstra");
 		configs.setRoutingOption("RunOnce");
 		RoutingStrategy estimatedStrategy = new RoutingStrategy(configs);
-		return estimatedStrategy.GetNextCity(this.Topology, 
-				this.DestinationCity, this.StartCity, this.MaxSpeed).getExpectingDelay();
+		return estimatedStrategy
+				.GetNextCity(this.Topology, this.DestinationCity,
+						this.StartCity, this.MaxSpeed).getExpectingDelay()
+				.addInterval(Simulator.WorldClock);
 	}
 	
 	public long getNextCity() throws Exception
@@ -158,7 +162,8 @@ public class Vehicle {
 		{
 			this.setStage(VehicleStage.OnRoad);
 			this.UpdatePosition(new VehiclePosition(
-					fromCityId, nextCity, 0));
+					fromCityId, nextCity, 0, 
+					Topology.DistanceBetween(fromCityId, nextCity)));
 			this.Topology.AcquireUsingRoad(fromCityId, nextCity);
 		}
 	}

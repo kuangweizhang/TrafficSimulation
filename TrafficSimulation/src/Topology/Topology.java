@@ -9,6 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import Simulator.Simulator;
 import Utility.TimeInterval;
 import Vehicle.Reservation;
 
@@ -22,7 +23,6 @@ import Vehicle.Reservation;
 
 public class Topology {
 	
-
 	/**
 	 * This number should be replaced when add checking road category in future.
 	 */
@@ -126,8 +126,8 @@ public class Topology {
 							}
 							else
 							{
-								preNode.AddNeighbor(hashtableNodes.get(reference), NumberOfLanes, 30);
-								hashtableNodes.get(reference).AddNeighbor(preNode, NumberOfLanes, 30);
+								preNode.AddNeighbor(hashtableNodes.get(reference), NumberOfLanes, Simulator.MaxSpeed);
+								hashtableNodes.get(reference).AddNeighbor(preNode, NumberOfLanes, Simulator.MaxSpeed);
 								preNode = hashtableNodes.get(reference);
 							}
 						}

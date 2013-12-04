@@ -9,7 +9,18 @@ public class Configurations
 	private String MapFile;
 	private long RandomSeed;
 	private boolean Logging;
+	private double VehicleGenerateRate;
 
+	public double getVehicleGenerateRate()
+	{
+		return VehicleGenerateRate;
+	}
+	
+	public void setVehicleGenerateRate(double rate)
+	{
+		VehicleGenerateRate = rate;
+	}
+	
 	public boolean isLogging()
 	{
 		return Logging;
@@ -140,5 +151,4 @@ public class Configurations
 	{
 		RandomSeed = randomSeed;
 	}
-
 }

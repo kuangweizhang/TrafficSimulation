@@ -1,17 +1,22 @@
 <Settings>
-
 	<!--Options: Greedy, AStarSearch, Dijkstra -->
 	<RoutingAlgo>Dijkstra</RoutingAlgo>
 	
 	<!--Options: RunOnce, Iterative-->
 	<RoutingOption>Iterative</RoutingOption>
 	
-	<!--Options:NoTraffic, CurrentTraffic, Reservation -->
-	<DelayOption>Reservation</DelayOption>
+	<!--Options: NoTraffic, CurrentTraffic, Reservation -->
+	<DelayOption>CurrentTraffic</DelayOption>
 	
 	<!--Name of the file-->
-	<MapFile>map2.osm</MapFile>
+	<MapFile>map5.osm</MapFile>
 	
 	<!--Detail logs or not, Options: True, False-->
 	<DetailLog>True</DetailLog>
+	
+	<!--Number of vehicles per node per tick-->
+	<VehicleGenerateRate>0.15</VehicleGenerateRate>
+	
+	<!--Random Seed, Options: Integer number or -, - represent truly random -->
+	<RandomSeed>1</RandomSeed>
 </Settings>
