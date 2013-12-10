@@ -26,7 +26,8 @@ public class Simulator
 	private HashMap<Long, Vehicle> ArrivedVehicles = new HashMap<Long, Vehicle>();
 	public static final double MaxSpeed = 60;
 	private Random RandomCity;
-	private PrintWriter Logwritter;
+	private PrintWriter RunningLogWriter;
+	private PrintWriter FinishedVehicleWriter;
 
 	public Simulator(Configurations configs) throws IOException
 	{
@@ -34,10 +35,16 @@ public class Simulator
 		this.Topology = new Topology(this.Configurations.getMapFile());
 		Simulator.WorldClock = new TimeInterval();
 		this.RandomCity = new Random(this.Configurations.getRandomSeed());
+		long currentTime = System.currentTimeMillis();
 		if (this.Configurations.isLogging())
 		{
-			Logwritter = new PrintWriter(new BufferedWriter(new FileWriter("T"
-					+ System.currentTimeMillis() + ".txt")));
+			RunningLogWriter = new PrintWriter(new BufferedWriter(new FileWriter("R"
+					+ currentTime + ".txt")));
+		}
+		if(this.Configurations.isVehicleLogging())
+		{
+			FinishedVehicleWriter = new PrintWriter(new BufferedWriter(new FileWriter("V"
+					+ currentTime + ".txt")));
 		}
 	}
 
@@ -54,6 +61,7 @@ public class Simulator
 					+ currentVehicle.toString());
 			if (currentVehicle.isArrived())
 			{
+				WrittingVehicle(currentVehicle);
 				ArrivedVehicles.put(currentVehicle.getId(), currentVehicle);
 			}
 		}
@@ -71,15 +79,23 @@ public class Simulator
 
 	public void FinishRun()
 	{
-		this.Logwritter.close();
+		this.RunningLogWriter.close();
 	}
 
 	private void WrittingLogs(String log)
 	{
-		if (Logwritter != null)
+		if (RunningLogWriter != null)
 		{
-			Logwritter.println(Simulator.WorldClock + ":" + log);
-			Logwritter.flush();
+			RunningLogWriter.println(Simulator.WorldClock + ":" + log);
+			RunningLogWriter.flush();
+		}
+	}
+	
+	private void WrittingVehicle(Vehicle vehicle)
+	{
+		if(FinishedVehicleWriter != null)
+		{
+			FinishedVehicleWriter.println(vehicle);
 		}
 	}
 

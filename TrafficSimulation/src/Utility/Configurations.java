@@ -9,8 +9,33 @@ public class Configurations
 	private String MapFile;
 	private long RandomSeed;
 	private boolean Logging;
+	private boolean VehicleLogging;
 	private double VehicleGenerateRate;
 
+	public boolean isVehicleLogging()
+	{
+		return VehicleLogging;
+	}
+
+	public void setVehicleLogging(String loggingOption) throws Exception
+	{
+		if (loggingOption.isEmpty())
+		{
+			throw new Exception("Logging Option is empty");
+		}
+		if (loggingOption.equals("True"))
+		{
+			this.VehicleLogging = true;
+			return;
+		}
+		if (loggingOption.equals("False"))
+		{
+			this.VehicleLogging = false;
+			return;
+		}
+		throw new Exception("Logging Option not supported:" + loggingOption);
+	}
+	
 	public double getVehicleGenerateRate()
 	{
 		return VehicleGenerateRate;

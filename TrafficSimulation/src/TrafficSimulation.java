@@ -64,6 +64,8 @@ public class TrafficSimulation
 				.getTextContent());
 		retval.setLogging((document).getElementsByTagName("DetailLog").item(0)
 				.getTextContent());
+		retval.setLogging((document).getElementsByTagName("VehicleLog").item(0)
+				.getTextContent());
 		retval.setVehicleGenerateRate(Double.parseDouble(((document).getElementsByTagName("VehicleGenerateRate").item(0)
 				.getTextContent())));
 		String seedValue = ((document).getElementsByTagName("RandomSeed").item(0)

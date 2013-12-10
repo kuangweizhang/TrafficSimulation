@@ -14,6 +14,9 @@
 	<!--Detail logs or not, Options: True, False-->
 	<DetailLog>True</DetailLog>
 	
+	<!--Vehicle logs or not, Options: True, False-->
+	<VehicleLog>True</VehicleLog>
+	
 	<!--Number of vehicles per node per tick-->
 	<VehicleGenerateRate>0.15</VehicleGenerateRate>
 	
