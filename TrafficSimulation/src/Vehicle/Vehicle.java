@@ -51,6 +51,12 @@ public class Vehicle {
 		return ArrivalTime.subtractInterval(ExpectingArrivalTime);
 	}
 	
+	public double getAlphaRatio()
+	{
+		return ArrivalTime.getTotalSeconds()
+				/ (double) (ExpectingArrivalTime.getTotalSeconds()) - 1;
+	}
+	
 	public VehiclePosition getPosition() {
 		return Position;
 	}

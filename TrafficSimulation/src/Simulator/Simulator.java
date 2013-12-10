@@ -113,25 +113,24 @@ public class Simulator
 		{
 			stringBuilder.append(" ");
 		}
-		stringBuilder.append("Average Alpha" + getAverageAlpha());
+		stringBuilder.append("Average Alpha Ratio" + getAverageAlphaRatio());
 
 		return stringBuilder.toString();
 	}
 
-	public TimeInterval getAverageAlpha()
+	public double getAverageAlphaRatio()
 	{
-		TimeInterval counterInterval = new TimeInterval();
+		double totalAlpha = 0;
 		int kCounter = 0;
 		for (Vehicle arraiedVehicle : ArrivedVehicles.values())
 		{
-			counterInterval
-					.addIntervalToThis(arraiedVehicle.getExpectingDifference());
+			totalAlpha += arraiedVehicle.getAlphaRatio();
 			kCounter++;
 			//System.out.println("Individual Alpha:" + arraiedVehicle.getExpectingDifference());
 		}
 		//System.out.println(kCounter);
 		//System.out.println(counterInterval);
-		return counterInterval.devideBy(kCounter);
+		return totalAlpha/(double)kCounter;
 	}
 	
 	/**
