@@ -3,15 +3,26 @@ package Routing;
 import Topology.Topology;
 import Utility.*;
 
-public class RoutingStrategy {
+public class RoutingStrategy
+{
 
 	private IGetDelay DelayFunction;
 	private RoutingOption RoutingOption;
 	private RoutingAlgorithmBase RoutingAlgorithm;
 	private RoutingResult CachedRoutingResult;
 
-	public RoutingStrategy(Configurations configurations) {
-		switch (configurations.getRoutingAlgo()) {
+	public RoutingStrategy(RoutingAlgorithmBase routingAlgorithm,
+			IGetDelay delayFunction, RoutingOption routingOption)
+	{
+		this.RoutingAlgorithm = routingAlgorithm;
+		this.RoutingOption = routingOption;
+		this.DelayFunction = delayFunction;
+	}
+
+	public RoutingStrategy(Configurations configurations, int sequence)
+	{
+		switch (configurations.getRoutingAlgo()[sequence])
+		{
 		case Greedy:
 			RoutingAlgorithm = new GreedyRouting();
 			break;
@@ -25,7 +36,8 @@ public class RoutingStrategy {
 			throw new UnsupportedOperationException();
 		}
 
-		switch (configurations.getRoutingDelayOption()) {
+		switch (configurations.getRoutingDelayOption()[sequence])
+		{
 		case NoTraffic:
 			DelayFunction = new GetDelayWithoutTraffic();
 			break;
@@ -39,12 +51,14 @@ public class RoutingStrategy {
 			throw new UnsupportedOperationException();
 		}
 
-		this.RoutingOption = configurations.getRoutingOption();
+		this.RoutingOption = configurations.getRoutingOption()[sequence];
 	}
 
 	public RoutingResult GetNextCity(Topology topology, long destinationCity,
-			long currentCity, double maxSpeed) throws Exception {
-		switch (RoutingOption) {
+			long currentCity, double maxSpeed) throws Exception
+	{
+		switch (RoutingOption)
+		{
 		case Iterative:
 			return GetNextCityIterative(topology, destinationCity, currentCity,
 					maxSpeed);
@@ -58,19 +72,23 @@ public class RoutingStrategy {
 
 	private RoutingResult GetNextCityIterative(Topology topology,
 			long destinationCity, long currentCity, double maxSpeed)
-			throws Exception {
+			throws Exception
+	{
 		return RoutingAlgorithm.getRoutingResult(topology, destinationCity,
 				currentCity, maxSpeed, DelayFunction);
 	}
 
 	private RoutingResult GetNextCityRunOnce(Topology topology,
 			long destinationCity, long currentCity, double maxSpeed)
-			throws Exception {
-		if (CachedRoutingResult == null) {
+			throws Exception
+	{
+		if (CachedRoutingResult == null)
+		{
 			CachedRoutingResult = RoutingAlgorithm.getRoutingResult(topology,
 					destinationCity, currentCity, maxSpeed, DelayFunction);
 			return CachedRoutingResult;
-		} else {
+		} else
+		{
 			return ForwardOneStep(CachedRoutingResult);
 		}
 	}
@@ -83,7 +101,8 @@ public class RoutingStrategy {
 	 * @throws Exception
 	 */
 	private RoutingResult ForwardOneStep(RoutingResult routingResult)
-			throws Exception {
+			throws Exception
+	{
 		routingResult.getPath().pollFirst();
 		return new RoutingResult(routingResult.getPath().getFirst(),
 				new TimeInterval(), routingResult.getPath());

@@ -1,15 +1,42 @@
 <Settings>
 	<!--Options: Greedy, AStarSearch, Dijkstra -->
-	<RoutingAlgo>Dijkstra</RoutingAlgo>
+	<PrimaryRoutingAlgo>Dijkstra</PrimaryRoutingAlgo>
 	
 	<!--Options: RunOnce, Iterative-->
-	<RoutingOption>Iterative</RoutingOption>
+	<PrimaryRoutingOption>Iterative</PrimaryRoutingOption>
 	
 	<!--Options: NoTraffic, CurrentTraffic, Reservation -->
-	<DelayOption>CurrentTraffic</DelayOption>
+	<PrimaryDelayOption>CurrentTraffic</PrimaryDelayOption>
+	
+	<!--Percentage of certain kind of vehicle in system, Options: 0-100 -->
+	<PrimaryPercentage>20</PrimaryPercentage>
+	
+	<!--Options: Greedy, AStarSearch, Dijkstra -->
+	<SecondaryRoutingAlgo>Dijkstra</SecondaryRoutingAlgo>
+	
+	<!--Options: RunOnce, Iterative-->
+	<SecondaryRoutingOption>Iterative</SecondaryRoutingOption>
+	
+	<!--Options: NoTraffic, CurrentTraffic, Reservation -->
+	<SecondaryDelayOption>CurrentTraffic</SecondaryDelayOption>
+	
+	<!--Percentage of certain kind of vehicle in system, Options: 0-100 -->
+	<SecondaryPercentage>50</SecondaryPercentage>
+	
+	<!--Options: Greedy, AStarSearch, Dijkstra -->
+	<TertiaryRoutingAlgo>Dijkstra</TertiaryRoutingAlgo>
+	
+	<!--Options: RunOnce, Iterative-->
+	<TertiaryRoutingOption>Iterative</TertiaryRoutingOption>
+	
+	<!--Options: NoTraffic, CurrentTraffic, Reservation -->
+	<TertiaryDelayOption>NoTraffic</TertiaryDelayOption>
+	
+	<!--Percentage of certain kind of vehicle in system, Options: 0-100 -->
+	<TertiaryPercentage>30</TertiaryPercentage>
 	
 	<!--Name of the file-->
-	<MapFile>map5.osm</MapFile>
+	<MapFile>map4.osm</MapFile>
 	
 	<!--Detail logs or not, Options: True, False-->
 	<DetailLog>True</DetailLog>

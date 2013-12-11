@@ -54,17 +54,40 @@ public class TrafficSimulation
 		DocumentBuilder documentBuilder = documentBuilderFactory
 				.newDocumentBuilder();
 		org.w3c.dom.Document document = documentBuilder.parse(xmlFile);
+		
 		retval.setRoutingAlgorithm((document)
-				.getElementsByTagName("RoutingAlgo").item(0).getTextContent());
+				.getElementsByTagName("PrimaryRoutingAlgo").item(0).getTextContent(), 0);
 		retval.setRoutingOption((document)
-				.getElementsByTagName("RoutingOption").item(0).getTextContent());
+				.getElementsByTagName("PrimaryRoutingOption").item(0).getTextContent(), 0);
 		retval.setRoutingDelayOption((document)
-				.getElementsByTagName("DelayOption").item(0).getTextContent());
+				.getElementsByTagName("PrimaryDelayOption").item(0).getTextContent(), 0);
+		retval.setVehiclePercentages((document)
+				.getElementsByTagName("PrimaryPercentage").item(0).getTextContent(), 0);
+		
+		retval.setRoutingAlgorithm((document)
+				.getElementsByTagName("SecondaryRoutingAlgo").item(0).getTextContent(), 1);
+		retval.setRoutingOption((document)
+				.getElementsByTagName("SecondaryRoutingOption").item(0).getTextContent(), 1);
+		retval.setRoutingDelayOption((document)
+				.getElementsByTagName("SecondaryDelayOption").item(0).getTextContent(), 1);
+		retval.setVehiclePercentages((document)
+				.getElementsByTagName("SecondaryPercentage").item(0).getTextContent(), 1);
+		
+		retval.setRoutingAlgorithm((document)
+				.getElementsByTagName("TertiaryRoutingAlgo").item(0).getTextContent(), 2);
+		retval.setRoutingOption((document)
+				.getElementsByTagName("TertiaryRoutingOption").item(0).getTextContent(), 2);
+		retval.setRoutingDelayOption((document)
+				.getElementsByTagName("TertiaryDelayOption").item(0).getTextContent(), 2);
+		retval.setVehiclePercentages((document)
+				.getElementsByTagName("TertiaryPercentage").item(0).getTextContent(), 2);
+		
+		
 		retval.setMapFile((document).getElementsByTagName("MapFile").item(0)
 				.getTextContent());
 		retval.setLogging((document).getElementsByTagName("DetailLog").item(0)
 				.getTextContent());
-		retval.setLogging((document).getElementsByTagName("VehicleLog").item(0)
+		retval.setVehicleLogging((document).getElementsByTagName("VehicleLog").item(0)
 				.getTextContent());
 		retval.setVehicleGenerateRate(Double.parseDouble(((document).getElementsByTagName("VehicleGenerateRate").item(0)
 				.getTextContent())));

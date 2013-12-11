@@ -48,13 +48,25 @@ public class Vehicle {
 	{
 		//System.out.println(this);
 		//System.out.println("Arrive:" + ArrivalTime + " Expecting:" + ExpectingArrivalTime);
+		if(ArrivalTime == null)
+		{
+			return null;
+		}
 		return ArrivalTime.subtractInterval(ExpectingArrivalTime);
 	}
 	
 	public double getAlphaRatio()
 	{
-		return ArrivalTime.getTotalSeconds()
-				/ (double) (ExpectingArrivalTime.getTotalSeconds()) - 1;
+		if(ArrivalTime == null)
+		{
+			return 0;
+		}
+		if(ExpectingArrivalTime.subtractInterval(StartTime).getTotalSeconds() == 0)
+		{
+			return 0;
+		}
+		return ArrivalTime.subtractInterval(StartTime).getTotalSeconds()
+				/ (double) (ExpectingArrivalTime.subtractInterval(StartTime).getTotalSeconds()) - 1;
 	}
 	
 	public VehiclePosition getPosition() {
@@ -111,10 +123,10 @@ public class Vehicle {
 	private TimeInterval getExpectingArrivalTime() throws Exception
 	{
 		Configurations configs = new Configurations();
-		configs.setRoutingDelayOption(RoutingDelayOption.NoTraffic);
-		configs.setRoutingAlgorithm("Dijkstra");
-		configs.setRoutingOption("RunOnce");
-		RoutingStrategy estimatedStrategy = new RoutingStrategy(configs);
+		configs.setRoutingDelayOption(RoutingDelayOption.NoTraffic, 0);
+		configs.setRoutingAlgorithm("Dijkstra", 0);
+		configs.setRoutingOption("RunOnce", 0);
+		RoutingStrategy estimatedStrategy = new RoutingStrategy(configs, 0);
 		return estimatedStrategy
 				.GetNextCity(this.Topology, this.DestinationCity,
 						this.StartCity, this.MaxSpeed).getExpectingDelay()
@@ -241,6 +253,12 @@ public class Vehicle {
 		log.append(this.StartTime);
 		log.append(" ArrivalTime:");
 		log.append(this.ArrivalTime);
+		log.append(" Expecting Time:");
+		log.append(this.ExpectingArrivalTime);
+		log.append(" Expecting and actual difference:");
+		log.append(this.getExpectingDifference());
+		log.append(" Alpha ratio:");
+		log.append(this.getAlphaRatio());
 		log.append(" Stage:");
 		log.append(this.Stage.name());
 		return log.toString();

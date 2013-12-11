@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Random;
+
 import Utility.Configurations;
 import Utility.TimeInterval;
 import Vehicle.Vehicle;
@@ -25,7 +26,7 @@ public class Simulator
 	private HashMap<Long, Vehicle> Vehicles = new HashMap<Long, Vehicle>();
 	private HashMap<Long, Vehicle> ArrivedVehicles = new HashMap<Long, Vehicle>();
 	public static final double MaxSpeed = 60;
-	private Random RandomCity;
+	private Random RandomGenerator;
 	private PrintWriter RunningLogWriter;
 	private PrintWriter FinishedVehicleWriter;
 
@@ -34,17 +35,17 @@ public class Simulator
 		this.Configurations = configs;
 		this.Topology = new Topology(this.Configurations.getMapFile());
 		Simulator.WorldClock = new TimeInterval();
-		this.RandomCity = new Random(this.Configurations.getRandomSeed());
+		this.RandomGenerator = new Random(this.Configurations.getRandomSeed());
 		long currentTime = System.currentTimeMillis();
 		if (this.Configurations.isLogging())
 		{
-			RunningLogWriter = new PrintWriter(new BufferedWriter(new FileWriter("R"
-					+ currentTime + ".txt")));
+			RunningLogWriter = new PrintWriter(new BufferedWriter(
+					new FileWriter("R" + currentTime + ".txt")));
 		}
-		if(this.Configurations.isVehicleLogging())
+		if (this.Configurations.isVehicleLogging())
 		{
-			FinishedVehicleWriter = new PrintWriter(new BufferedWriter(new FileWriter("V"
-					+ currentTime + ".txt")));
+			FinishedVehicleWriter = new PrintWriter(new BufferedWriter(
+					new FileWriter("V" + currentTime + ".txt")));
 		}
 	}
 
@@ -90,12 +91,13 @@ public class Simulator
 			RunningLogWriter.flush();
 		}
 	}
-	
+
 	private void WrittingVehicle(Vehicle vehicle)
 	{
-		if(FinishedVehicleWriter != null)
+		if (FinishedVehicleWriter != null)
 		{
 			FinishedVehicleWriter.println(vehicle);
+			FinishedVehicleWriter.flush();
 		}
 	}
 
@@ -104,37 +106,37 @@ public class Simulator
 		return ArrivedVehicles.values();
 	}
 
-	public String getTimeTickReport()
+	public String getTimeTickReport() throws Exception
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(WorldClock);
-		for(int i = stringBuilder.length(); i <= 10; i++)
+		for (int i = stringBuilder.length(); i <= 10; i++)
 		{
 			stringBuilder.append(" ");
 		}
 		stringBuilder.append("Total cars:"
 				+ (this.Vehicles.size() + this.ArrivedVehicles.size()) + " ");
-		for(int i = stringBuilder.length(); i <= 32; i++)
+		for (int i = stringBuilder.length(); i <= 32; i++)
 		{
 			stringBuilder.append(" ");
 		}
 		stringBuilder.append("Driving Cars:" + (this.Vehicles.size()) + " ");
-		for(int i = stringBuilder.length(); i <= 52; i++)
+		for (int i = stringBuilder.length(); i <= 52; i++)
 		{
 			stringBuilder.append(" ");
 		}
 		stringBuilder.append("Arrived Cars:" + (this.ArrivedVehicles.size())
 				+ " ");
-		for(int i = stringBuilder.length(); i <= 75; i++)
+		for (int i = stringBuilder.length(); i <= 75; i++)
 		{
 			stringBuilder.append(" ");
 		}
-		stringBuilder.append("Average Alpha Ratio" + getAverageAlphaRatio());
+		stringBuilder.append("Average Alpha Ratio   " + getAverageAlphaRatio());
 
 		return stringBuilder.toString();
 	}
 
-	public double getAverageAlphaRatio()
+	public double getAverageAlphaRatio() throws Exception
 	{
 		double totalAlpha = 0;
 		int kCounter = 0;
@@ -142,21 +144,22 @@ public class Simulator
 		{
 			totalAlpha += arraiedVehicle.getAlphaRatio();
 			kCounter++;
-			//System.out.println("Individual Alpha:" + arraiedVehicle.getExpectingDifference());
+//			 System.out.println("Individual Alpha:" +
+//					 arraiedVehicle.getAlphaRatio());
 		}
-		//System.out.println(kCounter);
-		//System.out.println(counterInterval);
-		return totalAlpha/(double)kCounter;
+		// System.out.println(kCounter);
+		// System.out.println(counterInterval);
+		return totalAlpha / (double) kCounter;
 	}
-	
+
 	/**
 	 * Add vehicles to system according to the VehicleGenerateRate
 	 */
 	public void AddVehicleToSystem() throws Exception
 	{
-		int numberOfVehicleToGenerate = (int) (Topology.NumberOfIntersections() * 
-				Configurations.getVehicleGenerateRate());
-		for(int i = 0; i < numberOfVehicleToGenerate; i++)
+		int numberOfVehicleToGenerate = (int) (Topology.NumberOfIntersections() * Configurations
+				.getVehicleGenerateRate());
+		for (int i = 0; i < numberOfVehicleToGenerate; i++)
 		{
 			AddVehicle();
 		}
@@ -164,6 +167,7 @@ public class Simulator
 
 	/**
 	 * Add one vehicle from and to random selected cities.
+	 * 
 	 * @throws Exception
 	 */
 	public void AddVehicle() throws Exception
@@ -175,10 +179,34 @@ public class Simulator
 			startCity = GetRandomCity();
 			endCity = GetRandomCity();
 		}
-
-		Vehicle newVehicle = new Vehicle(VehicleIdCounter++, startCity,
-				endCity, WorldClock, MaxSpeed, new RoutingStrategy(
-						this.Configurations), this.Topology);
+		double totalPercent = 0;
+		for (int i = 0; i < this.Configurations.NumberOfCategoriesOfVehicle; i++)
+		{
+			totalPercent += this.Configurations.getVehiclePercentages()[i];
+		}
+		Vehicle newVehicle = null;
+		double randomeChoice = this.RandomGenerator.nextDouble();
+		if (randomeChoice < this.Configurations.getVehiclePercentages()[0]
+				/ totalPercent)
+		{
+			newVehicle = new Vehicle(VehicleIdCounter++, startCity, endCity,
+					WorldClock, MaxSpeed, new RoutingStrategy(
+							this.Configurations, 0), this.Topology);
+		} else
+		{
+			if (randomeChoice > (1 - this.Configurations
+					.getVehiclePercentages()[2] / totalPercent))
+			{
+				newVehicle = new Vehicle(VehicleIdCounter++, startCity,
+						endCity, WorldClock, MaxSpeed, new RoutingStrategy(
+								this.Configurations, 2), this.Topology);
+			} else
+			{
+				newVehicle = new Vehicle(VehicleIdCounter++, startCity,
+						endCity, WorldClock, MaxSpeed, new RoutingStrategy(
+								this.Configurations, 1), this.Topology);
+			}
+		}
 		Vehicles.put(newVehicle.getId(), newVehicle);
 	}
 
@@ -192,6 +220,6 @@ public class Simulator
 	private long GetRandomCity()
 	{
 		Object[] keys = Topology.getIntersections().keySet().toArray();
-		return (Long) keys[this.RandomCity.nextInt(keys.length)];
+		return (Long) keys[this.RandomGenerator.nextInt(keys.length)];
 	}
 }
