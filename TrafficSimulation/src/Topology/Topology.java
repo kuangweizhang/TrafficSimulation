@@ -236,6 +236,7 @@ public class Topology {
 			saxParser.parse(MapPath, handler);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 		
 		// remove the nodes which only appears once in way's nd.

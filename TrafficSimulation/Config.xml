@@ -36,7 +36,7 @@
 	<TertiaryPercentage>30</TertiaryPercentage>
 	
 	<!--Name of the file-->
-	<MapFile>map4.osm</MapFile>
+	<MapFile>map023.osm</MapFile>
 	
 	<!--Detail logs or not, Options: True, False-->
 	<DetailLog>True</DetailLog>
