@@ -257,8 +257,9 @@ public class Vehicle {
 		log.append(this.ExpectingArrivalTime);
 		log.append(" Expecting and actual difference:");
 		log.append(this.getExpectingDifference());
-		log.append(" Alpha ratio:");
+		log.append(" Alpha ratio:	");
 		log.append(this.getAlphaRatio());
+		log.append("	");
 		log.append(" Stage:");
 		log.append(this.Stage.name());
 		return log.toString();

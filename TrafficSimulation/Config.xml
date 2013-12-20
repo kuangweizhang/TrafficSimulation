@@ -6,10 +6,10 @@
 	<PrimaryRoutingOption>Iterative</PrimaryRoutingOption>
 	
 	<!--Options: NoTraffic, CurrentTraffic, Reservation -->
-	<PrimaryDelayOption>CurrentTraffic</PrimaryDelayOption>
+	<PrimaryDelayOption>Reservation</PrimaryDelayOption>
 	
 	<!--Percentage of certain kind of vehicle in system, Options: 0-100 -->
-	<PrimaryPercentage>20</PrimaryPercentage>
+	<PrimaryPercentage>100</PrimaryPercentage>
 	
 	<!--Options: Greedy, AStarSearch, Dijkstra -->
 	<SecondaryRoutingAlgo>Dijkstra</SecondaryRoutingAlgo>
@@ -18,10 +18,10 @@
 	<SecondaryRoutingOption>Iterative</SecondaryRoutingOption>
 	
 	<!--Options: NoTraffic, CurrentTraffic, Reservation -->
-	<SecondaryDelayOption>CurrentTraffic</SecondaryDelayOption>
+	<SecondaryDelayOption>NoTraffic</SecondaryDelayOption>
 	
 	<!--Percentage of certain kind of vehicle in system, Options: 0-100 -->
-	<SecondaryPercentage>50</SecondaryPercentage>
+	<SecondaryPercentage>0</SecondaryPercentage>
 	
 	<!--Options: Greedy, AStarSearch, Dijkstra -->
 	<TertiaryRoutingAlgo>Dijkstra</TertiaryRoutingAlgo>
@@ -33,10 +33,10 @@
 	<TertiaryDelayOption>NoTraffic</TertiaryDelayOption>
 	
 	<!--Percentage of certain kind of vehicle in system, Options: 0-100 -->
-	<TertiaryPercentage>30</TertiaryPercentage>
+	<TertiaryPercentage>0</TertiaryPercentage>
 	
 	<!--Name of the file-->
-	<MapFile>map.osm</MapFile>
+	<MapFile>map-500.osm</MapFile>
 	
 	<!--Detail logs or not, Options: True, False-->
 	<DetailLog>True</DetailLog>
@@ -48,5 +48,5 @@
 	<VehicleGenerateRate>0.15</VehicleGenerateRate>
 	
 	<!--Random Seed, Options: Integer number or -, - represent truly random -->
-	<RandomSeed>1</RandomSeed>
+	<RandomSeed>10</RandomSeed>
 </Settings>
